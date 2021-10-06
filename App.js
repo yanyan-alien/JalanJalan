@@ -4,40 +4,97 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-
-
-function HomeScreen() {
+const HealthScreen = ({navigation}) =>{
   return (
-    <View style={styles.container}>
-      <View style={styles.feature_box}>
-      <TouchableOpacity style={{ flex: 1, backgroundColor: '#F8FFA5' , justifyContent:"center"}}> 
-            <Text style={{textAlign:"center"}}>TAXI</Text>
-            <Image style={styles.pictures} source={require('./assets/local_taxi.png')}></Image>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={{ flex: 1, backgroundColor: '#A5EFFF' , justifyContent:"center"}} >
-            <Text style={{textAlign:"center"}}>HEALTH</Text>
-            <Image style={styles.pictures} source={require('./assets/health.png')}></Image>
-        </TouchableOpacity>
-      </View>
-        
-      <View style={styles.feature_box}>
-        <TouchableOpacity
-           style={{ flex: 1, backgroundColor: '#B1F698' , justifyContent:"center"}}>
-            <Text style={{textAlign:"center"}}>FOOD</Text>  
-            <Image style={styles.pictures} source={require('./assets/restaurant.png')}></Image>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ flex: 1, backgroundColor: '#FF9292' , justifyContent:"center"}} >
-            <Text style={{textAlign:"center"}}>EMERGENCY</Text>  
-            <Image style={styles.pictures} source={require('./assets/emergency.png')}></Image>
-        </TouchableOpacity>
-      </View>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Healthy Things!</Text>
     </View>
+  );
+}
+
+const TaxiScreen = ({navigation}) =>{
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Taxi Things!</Text>
+    </View>
+  );
+}
+
+const FoodScreen = ({navigation}) =>{
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Food Things!</Text>
+    </View>
+  );
+}
+
+const EmergencyScreen = ({navigation}) =>{
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Emergency Things!</Text>
+    </View>
+  );
+}
+
+
+function Home(){
+  return(
+      <Stack.Navigator
+      screenOptions ={{headerShown: false}}>
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+        />
+        <Stack.Screen name= "Health" component={HealthScreen} />
+        <Stack.Screen name = "Taxi" component={TaxiScreen}/>
+        <Stack.Screen name = "Food" component={FoodScreen}/>
+        <Stack.Screen name = "Emergency" component={EmergencyScreen}/>
+      </Stack.Navigator>
+  )
+  
+}
+
+function HomeScreen({navigation}) {
+  return (
+        <View style={styles.container}>
+        <View style={styles.feature_box}>
+        <TouchableOpacity style={{ flex: 1, backgroundColor: '#F8FFA5' , justifyContent:"center"}}
+        onPress ={() => navigation.navigate('Taxi')}> 
+              <Text style={{textAlign:"center"}}>TAXI</Text>
+              <Image style={styles.pictures} source={require('./assets/local_taxi.png')}></Image>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={{ flex: 1, 
+            backgroundColor: '#A5EFFF' , 
+            justifyContent:"center" 
+             }} onPress ={() => navigation.navigate('Health')} >
+              <Text style={{textAlign:"center"}}>HEALTH</Text>
+              <Image style={styles.pictures} source={require('./assets/health.png')}></Image>
+          </TouchableOpacity>
+        </View>
+          
+        <View style={styles.feature_box}>
+          <TouchableOpacity
+            style={{ flex: 1, backgroundColor: '#B1F698' , justifyContent:"center"}}
+            onPress ={() => navigation.navigate('Food')}>
+              <Text style={{textAlign:"center"}}>FOOD</Text>  
+              <Image style={styles.pictures} source={require('./assets/restaurant.png')}></Image>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flex: 1, backgroundColor: '#FF9292' , justifyContent:"center"}} 
+            onPress ={() => navigation.navigate('Emergency')}>
+              <Text style={{textAlign:"center"}}>EMERGENCY</Text>  
+              <Image style={styles.pictures} source={require('./assets/emergency.png')}></Image>
+          </TouchableOpacity>
+        </View>
+      </View>
   );
 }
 
@@ -76,7 +133,7 @@ export default function App() {
       >
         <Tab.Screen 
           name="MENU" 
-          component={HomeScreen} 
+          component={Home} 
           options={{headerTitleAlign: "center", tabBarShowLabel: false}}
         />
         <Tab.Screen name="ADDRESS" component={SettingsScreen} 
