@@ -13,8 +13,116 @@ const Stack = createNativeStackNavigator();
 
 const HealthScreen = ({navigation}) =>{
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Healthy Things!</Text>
+  <View style = {[styles.container, {flexDirection:"column"}]}>
+    <View style={{ flex:1}}>
+      <Text style = 
+      {{fontSize : 36, 
+        fontWeight: 'bold',
+        marginTop:"10%",
+        marginRight:"30%"}}>
+        Nearest Clinics: 
+        </Text>
+    </View>
+
+    <View style={{ flex:2, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style = 
+        {{fontSize : 30,
+          marginTop:"10%"}}>
+          1. (Name of hospital) 
+        </Text>
+    </View>
+
+    <View style={styles.feature_box}>
+        <TouchableOpacity style={{ 
+          backgroundColor: '#3FDCFF' , 
+          justifyContent:"center",
+          width:350,
+          borderRadius: 24}}
+          onPress ={() => navigation.navigate('HealthList')}>
+        <Text style={{textAlign:"center", fontSize:30}}>Directions</Text>
+        </TouchableOpacity>
+    </View>
+   
+
+    <View style={{ flex:2, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style = 
+        {{fontSize : 30, 
+          marginTop:"10%"}}>
+          2. (Name of polyclinic) 
+        </Text>
+    </View>
+
+    <View style={{ flex:1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.feature_box}>
+        <TouchableOpacity style={{
+          backgroundColor: '#3FDCFF' , 
+          justifyContent:"center",
+          width:350,
+          borderRadius: 24,}}
+          onPress ={() => navigation.navigate('HealthList')}>
+        <Text style={{textAlign:"center", fontSize:30}}>Directions</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+    <View style ={{flex:1}}></View>
+
+    <View style={{ flex:1.1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={styles.feature_box}>
+        <TouchableOpacity style={{ 
+          backgroundColor: '#6FBAFF' , 
+          justifyContent:"center",
+          width:350,
+          borderRadius: 24}}
+          onPress ={() => navigation.navigate('Reminder')}>
+        <Text style={{textAlign:"center", fontSize:30}}>REMINDERS</Text>
+        </TouchableOpacity>
+    </View>
+    <View style = {{flex :0.1}}></View>
+    </View>
+  </View>
+  );
+}
+
+const Health_listScreen = ({navigation}) =>{
+  return (
+      <View style={{ flex:1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={styles.feature_box}>
+          <TouchableOpacity style={{ 
+          backgroundColor: '#3FDCFF' , 
+          justifyContent:"center",
+          width:1000,
+          borderRadius: 24}}
+          onPress ={() => navigation.navigate('HealthMap')}>
+          <Text style={{textAlign:"center", fontSize:30}}>Tap for Map View</Text>
+          </TouchableOpacity>
+        </View>
+      <View style={{ flex:10, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style = 
+        {{fontSize : 30, 
+          marginTop:"10%"}}>
+          (Directions by Google Maps) 
+        </Text>
+    </View>
+    </View>
+  );
+}
+
+const Health_MapScreen = ({navigation}) =>{
+  return (
+      <View style={{ flex:1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={styles.feature_box}>
+          <TouchableOpacity style={{ 
+          backgroundColor: '#3FDCFF' , 
+          justifyContent:"center",
+          width:1000,
+          borderRadius: 24}}
+          onPress ={() => navigation.navigate('HealthList')}>
+          <Text style={{textAlign:"center", fontSize:30}}>Tap for List View</Text>
+          </TouchableOpacity>
+        </View>
+      <View style={{ flex:10, justifyContent: 'center', alignItems: 'center'}}>
+        <Text>Put Image here</Text>
+      </View>
     </View>
   );
 }
@@ -43,19 +151,27 @@ const EmergencyScreen = ({navigation}) =>{
   );
 }
 
+const ReminderScreen = ({navigation}) =>{
+  return (
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Chiam Chueng pls</Text>
+    </View>
+  );
+}
+
 
 function Home(){
   return(
       <Stack.Navigator
       screenOptions ={{headerShown: false}}>
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-        />
+        <Stack.Screen name="HomeScreen" component={HomeScreen}/>
         <Stack.Screen name= "Health" component={HealthScreen} />
         <Stack.Screen name = "Taxi" component={TaxiScreen}/>
         <Stack.Screen name = "Food" component={FoodScreen}/>
         <Stack.Screen name = "Emergency" component={EmergencyScreen}/>
+        <Stack.Screen name = "HealthList" component={Health_listScreen}/>
+        <Stack.Screen name = "HealthMap" component={Health_MapScreen}/>
+        <Stack.Screen name = "Reminder" component ={ReminderScreen}/>
       </Stack.Navigator>
   )
   
