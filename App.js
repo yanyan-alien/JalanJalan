@@ -298,7 +298,6 @@ function Home(){
   )
   
 }
-
 function HomeScreen({navigation}) {
   return (
         <View style={styles.container}>
