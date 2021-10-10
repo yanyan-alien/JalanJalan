@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Overlay } from "react-native-elements";
 
@@ -17,6 +17,8 @@ export default class EditRemindersScreen extends Component {
           <AddMedicineOverlay
             newReminder={this.props.newReminder}
             onToggle={this.props.onToggle}
+            onChangeName={this.props.onChangeName}
+            onAdd={this.props.onAdd}
           />
         </Overlay>
         <Text style={styles.header}>Medication:</Text>

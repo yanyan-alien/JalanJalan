@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
 import EditRemindersScreen from "./EditRemindersScreen";
 
@@ -8,15 +8,8 @@ export default class ReminderHandler extends Component {
     reminders: [
       { id: 0, name: "Bumex", value: [1, 0, 1, 0, 1, 0, 0] },
       { id: 1, name: "Humulin", value: [0, 1, 0, 1, 0, 1, 0] },
-      { id: 3, name: "Panadol", value: [1, 1, 1, 1, 1, 1, 1] },
-      { id: 4, name: "Charcoal", value: [1, 1, 1, 1, 1, 1, 1] },
-      { id: 5, name: "Antibiotics", value: [1, 1, 1, 1, 1, 1, 1] },
-      { id: 6, name: "Weed", value: [1, 1, 1, 1, 1, 1, 1] },
-      { id: 7, name: "Anarax", value: [1, 1, 1, 1, 1, 1, 1] },
-      { id: 8, name: "NewMed1", value: [1, 1, 1, 1, 1, 1, 1] },
-      { id: 9, name: "NewMed2", value: [1, 1, 1, 1, 1, 1, 1] },
     ],
-    newReminder: { Name: "", value: [0, 0, 0, 0, 0, 0, 0] },
+    newReminder: { name: "Untitled Meds", value: [0, 0, 0, 0, 0, 0, 0] },
     shown: false,
   };
 
@@ -34,22 +27,32 @@ export default class ReminderHandler extends Component {
     this.setState({ reminders });
   };
 
-  handleAdd = () => {
+  handleAdd = (add) => {
     const reminders = this.state.reminders;
     const newReminder = this.state.newReminder;
+    const shown = this.state.shown;
     reminders.push({
-      id: reminders.length,
+      id: reminders[reminders.length - 1].id + 1,
       name: newReminder.name,
       value: newReminder.value,
     });
-    newReminder = { Name: " ", value: [0, 0, 0, 0, 0, 0, 0] };
-    this.setState({ reminders });
-    this.setState({ newReminder });
+    if (add) {
+      this.setState({ reminders });
+    }
+    this.setState({
+      newReminder: { name: "Untitled Meds", value: [0, 0, 0, 0, 0, 0, 0] },
+    });
+    this.setState({ shown: false });
   };
 
   handleToggleOverlay = () => {
     const shown = this.state.shown;
     this.setState({ shown: shown === true ? false : true });
+  };
+
+  handleChangeName = (newName) => {
+    const newReminder = this.state.newReminder;
+    this.setState({ newReminder: { name: newName, value: newReminder.value } });
   };
 
   render() {
@@ -63,6 +66,7 @@ export default class ReminderHandler extends Component {
           onDelete={this.handleDelete}
           onAdd={this.handleAdd}
           onToggleOverlay={this.handleToggleOverlay}
+          onChangeName={this.handleChangeName}
         />
       </View>
     );

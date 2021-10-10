@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 
 import WeeklyTable from "./WeeklyTable";
 
@@ -16,7 +23,20 @@ export default class Reminder extends Component {
             />
           </View>
           <TouchableOpacity
-            onPress={() => this.props.onDelete(this.props.reminder.id)}
+            onPress={() =>
+              Alert.alert(
+                "Delete Reminder",
+                "Are you sure?",
+                [
+                  {
+                    text: "Yes",
+                    onPress: () => this.props.onDelete(this.props.reminder.id),
+                  },
+                  { text: "No" },
+                ],
+                (cancelable = true)
+              )
+            }
           >
             <Image source={require("../../assets/delete_button.png")} />
           </TouchableOpacity>
@@ -31,6 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "flex-start",
+    marginBottom: 20,
   },
   medicationName: {
     fontSize: 30,

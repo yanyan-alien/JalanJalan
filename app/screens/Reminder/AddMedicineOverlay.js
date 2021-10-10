@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, TextInput } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 import WeeklyTable from "./WeeklyTable";
 
@@ -13,11 +19,10 @@ export default class AddMedicineOverlay extends Component {
         <View style={styles.secondRow}>
           <TextInput
             style={styles.input}
-            // onChangeText={onChangeNumber}
-            //value={number}
+            onChangeText={(text) => this.props.onChangeName(text)}
             placeholder="Name of Medicine"
             autoCapitalize="words"
-            maxLength={10}
+            maxLength={15}
           />
         </View>
         <View style={styles.thirdRow}>
@@ -28,7 +33,20 @@ export default class AddMedicineOverlay extends Component {
             />
           </View>
         </View>
-        <View style={styles.fourthRow}></View>
+        <View style={styles.fourthRow}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.onAdd(true)}
+          >
+            <Text style={styles.buttonText}>Add</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.onAdd(false)}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -38,7 +56,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
   },
   firstRow: {
     marginTop: 10,
@@ -48,6 +66,7 @@ const styles = StyleSheet.create({
   secondRow: {
     flex: 1,
     justifyContent: "center",
+    flexWrap: "nowrap",
   },
   thirdRow: {
     flex: 1,
@@ -59,7 +78,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginBottom: 10,
-    justifyContent: "center",
   },
   header: {
     flex: 1,
@@ -76,5 +94,18 @@ const styles = StyleSheet.create({
   weekBox: {
     flex: 0.3333,
     alignSelf: "center",
+  },
+  button: {
+    height: 40,
+    width: 113,
+    backgroundColor: "#C4C4C4",
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 24,
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
