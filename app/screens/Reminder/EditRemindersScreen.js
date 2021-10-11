@@ -21,7 +21,15 @@ export default class EditRemindersScreen extends Component {
             onAdd={this.props.onAdd}
           />
         </Overlay>
-        <Text style={styles.header}>Medication:</Text>
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>Medication:</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigate(this.props.destination)}
+          >
+            <Text style={styles.buttonText}>Done</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.medicationListContainer}>
           <Reminders
             reminders={this.props.reminders}
@@ -34,7 +42,7 @@ export default class EditRemindersScreen extends Component {
             style={styles.addMedicineButton}
             onPress={() => this.props.onToggleOverlay()}
           >
-            <Text style={styles.buttonText}>+ Add medicine</Text>
+            <Text style={styles.medButtonText}>+ Add medicine</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -53,8 +61,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 23,
   },
+  headerContainer: {
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+  },
   header: {
-    flex: 0,
     fontSize: 36,
     fontWeight: "bold",
     textAlign: "left",
@@ -74,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignSelf: "center",
   },
-  buttonText: {
+  medButtonText: {
     fontSize: 30,
     textAlign: "center",
   },
@@ -89,5 +100,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "left",
     lineHeight: 50,
+  },
+  button: {
+    height: 40,
+    width: 113,
+    backgroundColor: "#C4C4C4",
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 20,
+    marginTop: 30,
+  },
+  buttonText: {
+    fontSize: 24,
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
-export default function AllRemindersScreen() {
+export default function AllRemindersScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.pageContainer}>
@@ -44,7 +44,7 @@ export default function AllRemindersScreen() {
         </View>
         <View style={styles.editContainer}>
           <TouchableOpacity
-            onPress={() => console.log("Edit button has been pressed")}
+            onPress={() => navigation.navigate("ReminderHandler")}
           >
             <Image
               source={require("../../assets/edit_button.png")}

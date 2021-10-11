@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import EditRemindersScreen from "./EditRemindersScreen";
 
@@ -62,11 +63,14 @@ export default class ReminderHandler extends Component {
           reminders={this.state.reminders}
           newReminder={this.state.newReminder}
           shown={this.state.shown}
+          navigation={this.props.navigation}
           onToggle={this.handleToggle}
           onDelete={this.handleDelete}
           onAdd={this.handleAdd}
           onToggleOverlay={this.handleToggleOverlay}
           onChangeName={this.handleChangeName}
+          navigate={this.props.navigation.navigate}
+          destination="ReminderMain"
         />
       </View>
     );

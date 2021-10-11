@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function RemindersMainScreen() {
+export default function RemindersMainScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Today:</Text>
@@ -13,7 +13,7 @@ export default function RemindersMainScreen() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.remindersButton}
-          onPress={() => console.log("All reminders has been pressed")}
+          onPress={() => navigation.navigate("ReminderAll")}
         >
           <Text style={styles.buttonText}>All Reminders</Text>
         </TouchableOpacity>
