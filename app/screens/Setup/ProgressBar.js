@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 
 export default function ProgressBar(props) {
   const steps = props.steps * 2;
-  const currentStep = props.currentStep * 2;
+  const currentStep = props.currentStep * 2 - 2;
   return (
     <View style={styles.progressContainer}>
       {[...Array(steps)].map((_, i) =>

@@ -1,27 +1,22 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import ProgressBar from "./ProgressBar";
+import SetupNavigator from "./SetupNavigator";
 
-export default function SetupScreen({ navigation }) {
+const setupRoutes = ["language", "basic", "health", "emergency", "review"];
+
+export default function SetupScreen() {
+  const [currentStep, setCurrentStep] = useState(0);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.globeContainer}>
         <Feather name="globe" size={25} color="#001A72" />
       </View>
-      <ProgressBar steps={5} currentStep={0} />
-      <View style={styles.languageContainer}>
-        <Text style={styles.languageLabel}>English</Text>
-        <Text style={styles.languageLabel}>中文</Text>
-        <Text style={styles.languageLabel}>தமிழ்</Text>
-        <Text style={[styles.languageLabel, styles.languageLabel__small]}>
-          bahasa melayu
-        </Text>
-      </View>
-      <View style={[styles.globeContainer, styles.globeContainer__center]}>
-        <Feather name="globe" size={24} color="#001A72" />
-      </View>
+      <ProgressBar steps={setupRoutes.length} currentStep={currentStep + 1} />
+      <SetupNavigator onNavigate={setCurrentStep} />
     </SafeAreaView>
   );
 }
@@ -50,5 +45,5 @@ const styles = StyleSheet.create({
   },
   languageLabel__small: {
     fontSize: 48,
-  }
+  },
 });
