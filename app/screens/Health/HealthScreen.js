@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 export default function HealthScreen({ navigation }) {
@@ -37,7 +37,8 @@ export default function HealthScreen({ navigation }) {
             width: 350,
             borderRadius: 24,
           }}
-          onPress={() => navigation.navigate("HealthList")}
+          onPress={() => {navigation.navigate('HealthList');
+        }}
         >
           <Text style={{ textAlign: "center", fontSize: 30 }}>Directions</Text>
         </TouchableOpacity>
