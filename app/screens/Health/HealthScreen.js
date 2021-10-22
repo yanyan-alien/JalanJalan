@@ -95,7 +95,7 @@ export default function HealthScreen({ navigation }) {
               width: 350,
               borderRadius: 24,
             }}
-            onPress={() => navigation.navigate("ReminderMain")}
+            onPress={() => navigation.navigate("ReminderHandler")}
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>REMINDERS</Text>
           </TouchableOpacity>
