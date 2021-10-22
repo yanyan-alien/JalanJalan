@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,74 +9,271 @@ import {
 } from "react-native";
 import { Overlay } from "react-native-elements";
 
-export default function AllRemindersScreen({ navigation }) {
-  const [visible, setVisible] = useState(false);
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
+export default class AllRemindersScreen extends Component {
+  state = {
+    view: [false, false, false, false, false, false, false],
   };
 
-  return (
-    <View style={styles.container}>
-      <Overlay
-        overlayStyle={styles.overlayMainContainer}
-        isVisible={visible}
-        onBackdropPress={toggleOverlay}
-      >
-        <View style={styles.overlayContainer}>
-          <View style={styles.firstRow}>
-            <Text style={styles.header}>Monday:</Text>
+  changeDay = (newDay) => {
+    if (newDay === 0) {
+      this.setState({
+        view: [true, false, false, false, false, false, false],
+      });
+    } else if (newDay === 1) {
+      this.setState({
+        view: [false, true, false, false, false, false, false],
+      });
+    } else if (newDay === 2) {
+      this.setState({
+        view: [false, false, true, false, false, false, false],
+      });
+    } else if (newDay === 3) {
+      this.setState({
+        view: [false, false, false, true, false, false, false],
+      });
+    } else if (newDay === 4) {
+      this.setState({
+        view: [false, false, false, false, true, false, false],
+      });
+    } else if (newDay === 5) {
+      this.setState({
+        view: [false, false, false, false, false, true, false],
+      });
+    } else if (newDay === 6) {
+      this.setState({
+        view: [false, false, false, false, false, false, true],
+      });
+    } else if (newDay === 7) {
+      this.setState({
+        view: [false, false, false, false, false, false, false],
+      });
+    }
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Overlay
+          overlayStyle={styles.overlayMainContainer}
+          isVisible={this.state.view[0]}
+          onBackdropPress={() => this.changeDay(7)}
+        >
+          <View style={styles.overlayContainer}>
+            <View style={styles.firstRow}>
+              <Text style={styles.header}>Monday:</Text>
+            </View>
+            <ScrollView style={styles.secondRow}>
+              <Text style={styles.reminderText}>{this.props.allResult[1]}</Text>
+            </ScrollView>
+            <View style={styles.thirdRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.changeDay(7)}
+              >
+                <Text style={styles.buttonText}>Done</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <ScrollView style={styles.secondRow}>
-            <Text style={styles.reminderText}>
-              Hello this is a super long text to test the scroll function i just
-              added, hope it works wonders
-            </Text>
-          </ScrollView>
-          <View style={styles.thirdRow}>
-            <TouchableOpacity style={styles.button} onPress={toggleOverlay}>
-              <Text style={styles.buttonText}>Done</Text>
+        </Overlay>
+        <Overlay
+          overlayStyle={styles.overlayMainContainer}
+          isVisible={this.state.view[1]}
+          onBackdropPress={() => this.changeDay(7)}
+        >
+          <View style={styles.overlayContainer}>
+            <View style={styles.firstRow}>
+              <Text style={styles.header}>Monday:</Text>
+            </View>
+            <ScrollView style={styles.secondRow}>
+              <Text style={styles.reminderText}>{this.props.allResult[2]}</Text>
+            </ScrollView>
+            <View style={styles.thirdRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.changeDay(7)}
+              >
+                <Text style={styles.buttonText}>Done</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Overlay>
+        <Overlay
+          overlayStyle={styles.overlayMainContainer}
+          isVisible={this.state.view[2]}
+          onBackdropPress={() => this.changeDay(7)}
+        >
+          <View style={styles.overlayContainer}>
+            <View style={styles.firstRow}>
+              <Text style={styles.header}>Monday:</Text>
+            </View>
+            <ScrollView style={styles.secondRow}>
+              <Text style={styles.reminderText}>{this.props.allResult[3]}</Text>
+            </ScrollView>
+            <View style={styles.thirdRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.changeDay(7)}
+              >
+                <Text style={styles.buttonText}>Done</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Overlay>
+        <Overlay
+          overlayStyle={styles.overlayMainContainer}
+          isVisible={this.state.view[3]}
+          onBackdropPress={() => this.changeDay(7)}
+        >
+          <View style={styles.overlayContainer}>
+            <View style={styles.firstRow}>
+              <Text style={styles.header}>Monday:</Text>
+            </View>
+            <ScrollView style={styles.secondRow}>
+              <Text style={styles.reminderText}>{this.props.allResult[4]}</Text>
+            </ScrollView>
+            <View style={styles.thirdRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.changeDay(7)}
+              >
+                <Text style={styles.buttonText}>Done</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Overlay>
+        <Overlay
+          overlayStyle={styles.overlayMainContainer}
+          isVisible={this.state.view[4]}
+          onBackdropPress={() => this.changeDay(7)}
+        >
+          <View style={styles.overlayContainer}>
+            <View style={styles.firstRow}>
+              <Text style={styles.header}>Monday:</Text>
+            </View>
+            <ScrollView style={styles.secondRow}>
+              <Text style={styles.reminderText}>{this.props.allResult[5]}</Text>
+            </ScrollView>
+            <View style={styles.thirdRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.changeDay(7)}
+              >
+                <Text style={styles.buttonText}>Done</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Overlay>
+        <Overlay
+          overlayStyle={styles.overlayMainContainer}
+          isVisible={this.state.view[5]}
+          onBackdropPress={() => this.changeDay(7)}
+        >
+          <View style={styles.overlayContainer}>
+            <View style={styles.firstRow}>
+              <Text style={styles.header}>Monday:</Text>
+            </View>
+            <ScrollView style={styles.secondRow}>
+              <Text style={styles.reminderText}>{this.props.allResult[6]}</Text>
+            </ScrollView>
+            <View style={styles.thirdRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.changeDay(7)}
+              >
+                <Text style={styles.buttonText}>Done</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Overlay>
+        <Overlay
+          overlayStyle={styles.overlayMainContainer}
+          isVisible={this.state.view[6]}
+          onBackdropPress={() => this.changeDay(7)}
+        >
+          <View style={styles.overlayContainer}>
+            <View style={styles.firstRow}>
+              <Text style={styles.header}>Monday:</Text>
+            </View>
+            <ScrollView style={styles.secondRow}>
+              <Text style={styles.reminderText}>{this.props.allResult[0]}</Text>
+            </ScrollView>
+            <View style={styles.thirdRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.changeDay(7)}
+              >
+                <Text style={styles.buttonText}>Done</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Overlay>
+
+        <View style={styles.pageContainer}>
+          <View style={styles.daysContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                this.changeDay(0);
+              }}
+            >
+              <Text style={styles.dayText}>Monday</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.changeDay(1);
+              }}
+            >
+              <Text style={styles.dayText}>Tuesday</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.changeDay(2);
+              }}
+            >
+              <Text style={styles.dayText}>Wednesday</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.changeDay(3);
+              }}
+            >
+              <Text style={styles.dayText}>Thursday</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.changeDay(4);
+              }}
+            >
+              <Text style={styles.dayText}>Friday</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.changeDay(5);
+              }}
+            >
+              <Text style={styles.dayText}>Saturday</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.changeDay(6);
+              }}
+            >
+              <Text style={styles.dayText}>Sunday</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.editContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ReminderEdit")}
+            >
+              <Image
+                source={require("../../assets/edit_button.png")}
+                style={styles.editIcon}
+              />
             </TouchableOpacity>
           </View>
         </View>
-      </Overlay>
-      <View style={styles.pageContainer}>
-        <View style={styles.daysContainer}>
-          <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={styles.dayText}>Monday</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={styles.dayText}>Tuesday</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={styles.dayText}>Wednesday</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={styles.dayText}>Thursday</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={styles.dayText}>Friday</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={styles.dayText}>Saturday</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={styles.dayText}>Sunday</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.editContainer}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ReminderHandler")}
-          >
-            <Image
-              source={require("../../assets/edit_button.png")}
-              style={styles.editIcon}
-            />
-          </TouchableOpacity>
-        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

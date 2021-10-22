@@ -2,15 +2,27 @@ import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("remindersDB.db");
+import ReminderNavigator from "./ReminderNavigator";
 
-import EditRemindersScreen from "./EditRemindersScreen";
+const db = SQLite.openDatabase("test16.db");
+const d = new Date();
 
 export default class ReminderHandler extends Component {
   state = {
     reminders: [],
     newReminder: { name: "Untitled Meds", value: [0, 0, 0, 0, 0, 0, 0] },
     shown: false,
+    tempResult: "No Reminders for Today",
+    viewDay: 0,
+    allResult: [
+      "No Reminders",
+      "No Reminders",
+      "No Reminders",
+      "No Reminders",
+      "No Reminders",
+      "No Reminders",
+      "No Reminders",
+    ],
   };
 
   //CREATE: Set up database and create dummy data (NOTE: code will have error with empty reminders in state)
@@ -20,7 +32,6 @@ export default class ReminderHandler extends Component {
         'SELECT * FROM sqlite_master WHERE type="table" AND name="reminders"',
         null,
         (trans, result) => {
-          console.log(result);
           if (result.rows.length === 0) {
             console.log("table doesn't exist");
             db.transaction((tx) =>
@@ -43,11 +54,10 @@ export default class ReminderHandler extends Component {
                       "INSERT INTO reminders (name, mon, tue, wed, thu, fri, sat, sun) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
                       ["Bumex", 1, 0, 1, 0, 1, 0, 0],
                       (trans, result) => {
-                        this.databaseRead();
+                        this.databaseLoad();
                       },
                       (trans, result) => {
                         console.log("insertion failure");
-                        console.log(result);
                       }
                     )
                   );
@@ -59,7 +69,7 @@ export default class ReminderHandler extends Component {
             );
           } else {
             console.log("table exists");
-            this.databaseRead();
+            this.databaseLoad();
           }
         },
         (trans, result) => {
@@ -68,7 +78,113 @@ export default class ReminderHandler extends Component {
       )
     );
   };
-  //READ for Database
+
+  //READ for Database (MAIN PAGE)
+  handleLoadMain = () => {
+    this.databaseLoad();
+  };
+
+  databaseLoad = () => {
+    let day = d.getDay();
+    let week = [
+      "SELECT name FROM reminders WHERE sun = 1",
+      "SELECT name FROM reminders WHERE mon = 1",
+      "SELECT name FROM reminders WHERE tue = 1",
+      "SELECT name FROM reminders WHERE wed = 1",
+      "SELECT name FROM reminders WHERE thu = 1",
+      "SELECT name FROM reminders WHERE fri = 1",
+      "SELECT name FROM reminders WHERE sat = 1",
+    ];
+    db.transaction((tx) =>
+      tx.executeSql(
+        week[day],
+        null,
+        (trans, result) => {
+          if (result.rows.length != 0) {
+            this.saveDbToToday(result);
+          }
+          console.log("database read success (today)");
+        },
+        (trans, result) => {
+          console.log("database read failure (today)");
+        }
+      )
+    );
+  };
+
+  saveDbToToday = (result) => {
+    let tempReminders = "";
+    if (result != []) {
+      for (let i = 0; i < result.rows.length; i++) {
+        tempReminders += "- ";
+        tempReminders += result.rows.item(i).name;
+        tempReminders += "\n";
+      }
+      this.setState({ tempResult: tempReminders });
+    }
+  };
+
+  //READ for Database (ALL PAGE)
+  databaseView = () => {
+    let week = [
+      "SELECT name FROM reminders WHERE sun = 1",
+      "SELECT name FROM reminders WHERE mon = 1",
+      "SELECT name FROM reminders WHERE tue = 1",
+      "SELECT name FROM reminders WHERE wed = 1",
+      "SELECT name FROM reminders WHERE thu = 1",
+      "SELECT name FROM reminders WHERE fri = 1",
+      "SELECT name FROM reminders WHERE sat = 1",
+    ];
+    let tempArray = [];
+    for (let i = 0; i < week.length; i++) {
+      db.transaction((tx) =>
+        tx.executeSql(
+          week[i],
+          null,
+          (trans, result) => {
+            if (result.rows.length != 0) {
+              let tempReminders = "";
+              if (result != []) {
+                for (let j = 0; j < result.rows.length; j++) {
+                  tempReminders += "- ";
+                  tempReminders += result.rows.item(j).name;
+                  tempReminders += "\n";
+                  tempArray.push(tempReminders);
+                }
+              } else {
+                tempArray.push("No Reminders");
+              }
+            }
+            console.log("database read success (all)");
+          },
+          (trans, result) => {
+            console.log("database read failure (all)");
+          }
+        )
+      );
+    }
+    this.setState({ allResult: tempArray });
+  };
+
+  saveDbToThisDay = (result) => {
+    let tempReminders = "";
+    if (result != []) {
+      for (let i = 0; i < result.rows.length; i++) {
+        tempReminders += "- ";
+        tempReminders += result.rows.item(i).name;
+        tempReminders += "\n";
+        this.setState({ allResult: tempReminders });
+      }
+    } else {
+      this.setState({ allResult: "No Reminders" });
+    }
+  };
+
+  //READ for Database (EDIT PAGE)
+  handleLoadEdit = () => {
+    this.databaseRead();
+  };
+
   databaseRead = () => {
     this.setState({ reminders: [] });
     db.transaction((tx) =>
@@ -76,7 +192,6 @@ export default class ReminderHandler extends Component {
         "SELECT rowid, name, mon, tue, wed, thu, fri, sat, sun FROM reminders",
         null,
         (trans, result) => {
-          console.log(result);
           if (result.rows.length != 0) {
             this.saveDbToState(result);
           }
@@ -94,7 +209,6 @@ export default class ReminderHandler extends Component {
     let tempReminders = [];
     if (result != []) {
       for (let i = 0; i < result.rows.length; i++) {
-        console.log(result.rows.item(i));
         tempReminders.push({
           id: result.rows.item(i).rowid,
           name: result.rows.item(i).name,
@@ -112,7 +226,7 @@ export default class ReminderHandler extends Component {
     }
     this.setState({ reminders: reminders.concat(tempReminders) });
   };
-  //UPDATE for database
+  //UPDATE for database (EDIT PAGE)
   databaseUpdate = () => {
     const reminders = this.state.reminders;
     for (let i = 0; i < reminders.length; i++) {
@@ -131,6 +245,7 @@ export default class ReminderHandler extends Component {
           ],
           (trans, result) => {
             console.log("data stored");
+            this.databaseLoad();
           },
           (trans, result) => {
             console.log("data not stored");
@@ -139,7 +254,7 @@ export default class ReminderHandler extends Component {
       );
     }
   };
-  //DELETE for database
+  //DELETE for database (EDIT PAGE)
   databaseDelete = (id) => {
     db.transaction((tx) =>
       tx.executeSql(
@@ -154,6 +269,8 @@ export default class ReminderHandler extends Component {
       )
     );
   };
+
+  //Non-database functions
   handleToggle = (reminder, valueIndex) => {
     const reminders = [...this.state.reminders];
     const index = reminders.indexOf(reminder);
@@ -173,14 +290,7 @@ export default class ReminderHandler extends Component {
     const reminders = this.state.reminders;
     const newReminder = this.state.newReminder;
     const shown = this.state.shown;
-    //const index = reminders == null ? 0 : reminders[reminders.length - 1].id + 1;
-    //reminders.push({
-    //  id: reminders[reminders.length - 1].id + 1,
-    //  name: newReminder.name,
-    //  value: newReminder.value,
-    //});
     if (add) {
-      //this.setState({ reminders });
       db.transaction((tx) =>
         tx.executeSql(
           "INSERT INTO reminders (name, mon, tue, wed, thu, fri, sat, sun) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
@@ -195,11 +305,12 @@ export default class ReminderHandler extends Component {
             newReminder.value[6],
           ],
           (trans, result) => {
+            this.databaseLoad();
             this.databaseRead();
+            console.log("insertion success");
           },
           (trans, result) => {
             console.log("insertion failure");
-            console.log(result);
           }
         )
       );
@@ -220,22 +331,30 @@ export default class ReminderHandler extends Component {
     this.setState({ newReminder: { name: newName, value: newReminder.value } });
   };
 
+  handleChangeDay = (newDay) => {
+    this.databaseView(newDay);
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <EditRemindersScreen
+        <ReminderNavigator
           reminders={this.state.reminders}
           newReminder={this.state.newReminder}
           shown={this.state.shown}
           navigation={this.props.navigation}
+          tempResult={this.state.tempResult}
+          viewDay={this.state.viewDay}
+          allResult={this.state.allResult}
           onToggle={this.handleToggle}
           onDelete={this.handleDelete}
           onAdd={this.handleAdd}
           onToggleOverlay={this.handleToggleOverlay}
           onChangeName={this.handleChangeName}
           onSave={this.databaseUpdate}
-          navigate={this.props.navigation.navigate}
-          destination="ReminderMain"
+          onLoadMain={this.handleLoadMain}
+          onLoadEdit={this.handleLoadEdit}
+          onChangeDay={this.handleChangeDay}
         />
       </View>
     );

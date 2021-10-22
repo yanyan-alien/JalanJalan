@@ -6,6 +6,10 @@ import AddMedicineOverlay from "./AddMedicineOverlay";
 import Reminders from "./Reminders";
 
 export default class EditRemindersScreen extends Component {
+  componentDidMount = () => {
+    this.props.onLoadEdit();
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -27,10 +31,10 @@ export default class EditRemindersScreen extends Component {
             style={styles.button}
             onPress={() => {
               this.props.onSave();
-              this.props.navigation.navigate(this.props.destination);
+              this.props.navigation.navigate("ReminderMain");
             }}
           >
-            <Text style={styles.buttonText}>Done</Text>
+            <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.medicationListContainer}>
