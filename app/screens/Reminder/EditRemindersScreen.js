@@ -25,7 +25,10 @@ export default class EditRemindersScreen extends Component {
           <Text style={styles.header}>Medication:</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigate(this.props.destination)}
+            onPress={() => {
+              this.props.onSave();
+              this.props.navigation.navigate(this.props.destination);
+            }}
           >
             <Text style={styles.buttonText}>Done</Text>
           </TouchableOpacity>
