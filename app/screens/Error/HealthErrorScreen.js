@@ -1,38 +1,35 @@
 import React from "react";
 import { 
   Text,
-  Image,
   View,
   TouchableOpacity,
   StyleSheet
  } from "react-native";
 
-export default function HealthError() {
+export default function HealthError({ navigation }) {
     return(
-        <View style={[styles.container, { flexDirection: "column" }]}>
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              fontSize: 36,
-              fontWeight: "bold",
-              marginTop: "10%",
-              marginRight: "30%",
-            }}
-          >
-            Nearest Clinics:
-          </Text>
-        </View>
-        <View
-        style={{
-          flex: 2,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 30, marginTop: "10%" }}>
-         Error
+        <View style={[styles.container, { flexDirection: "column"}]}>
+        <View style={{flex:6}}>
+
+        <Text style={{ fontSize: 30, marginTop: "10%", textAlign:"center"}}>
+            <Text style={{fontWeight:"bold"}}>Error:{"\n"}</Text>
+            Location services not available
         </Text>
-      </View>
+        </View>
+        <View style={styles.feature_box}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#6FBAFF",
+              justifyContent: "center",
+              width: 350,
+              borderRadius: 24,
+            }}
+            onPress={() => navigation.navigate("ReminderMain")}
+          >
+            <Text style={{ textAlign: "center", fontSize: 30 }}>REMINDERS</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 0.1 }}></View>
       </View>
 
         )};
@@ -42,7 +39,7 @@ export default function HealthError() {
             container: {
               // flexDirection: 'column',
               flex: 2,
-              // paddingTop: 20,
+              paddingHorizontal: 20,
               backgroundColor: "white",
               alignItems: "center",
               justifyContent: "center",

@@ -24,7 +24,7 @@ export default function HomeScreen({ navigation }) {
               }}
             onPress={() => setModalVisible(true)}
             >
-            <Text style={{ textAlign: "center" , fontWeight:"bold"}}>TAXI</Text>
+            <Text style={{ textAlign: "center"}}>TAXI</Text>
             <Image
               style={styles.pictures}
               source={require("../../assets/local_taxi.png")}
@@ -70,7 +70,7 @@ export default function HomeScreen({ navigation }) {
           }}
           onPress={() =>  {
             console.log(connectionStatus)
-            if(!connectionStatus) navigation.navigate("HealthError")
+            if(connectionStatus) navigation.navigate("HealthError")
             else navigation.navigate("Health")}
           }
         >
@@ -89,7 +89,10 @@ export default function HomeScreen({ navigation }) {
             backgroundColor: "#B1F698",
             justifyContent: "center",
           }}
-          onPress={() => navigation.navigate("Food")}
+          onPress={() => 
+            // if(connectionStatus)
+            navigation.navigate("Food")
+          }
         >
           <Text style={{ textAlign: "center" }}>FOOD</Text>
           <Image

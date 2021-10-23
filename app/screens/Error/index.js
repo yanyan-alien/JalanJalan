@@ -1,5 +1,5 @@
-import EnableErrorScreen from "./EnableErrorScreen";
-import HealthErrorScreen from "./HealthErrorScreen";
-import UnavailableErrorScreen from "./UnavailableErrorScreen";
+import EnableError from "./EnableErrorScreen";
+import HealthError from "./HealthErrorScreen";
+import UnavailableError from "./UnavailableErrorScreen";
 
-export { EnableErrorScreen, HealthErrorScreen, UnavailableErrorScreen };
+export { EnableError, HealthError, UnavailableError };

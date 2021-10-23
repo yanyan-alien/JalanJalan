@@ -7,7 +7,7 @@ import {
   StyleSheet
  } from "react-native";
 
-export default function EnableErrorScreen() {
+export default function EnableError() {
      return (
         <View style={{padding:30, alignItems:"center"}}>
         <Text>ERROR:</Text>

@@ -17,7 +17,7 @@ import { EmergencyScreen } from "../screens/Emergency";
 import ReminderHandler from "../screens/Reminder/ReminderHandler";
 import RemindersMainScreen from "../screens/Reminder/RemindersMainScreen";
 import AllRemindersScreen from "../screens/Reminder/AllRemindersScreen";
-import HealthError from "../screens/Error/HealthErrorScreen";
+import {HealthError, EnableError, UnavailableError} from "../screens/Error";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +48,10 @@ export default function MainNavigator() {
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="Emergency" component={EmergencyScreen} />
+      </Stack.Group>
+      <Stack.Group>
+        <Stack.Screen name="UnavailableError" component={UnavailableError} />
+        <Stack.Screen name="EnableError" component={EnableError} />
       </Stack.Group>
     </Stack.Navigator>
   );

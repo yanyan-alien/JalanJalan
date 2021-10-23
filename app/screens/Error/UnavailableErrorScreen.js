@@ -7,7 +7,7 @@ import {
   StyleSheet
  } from "react-native";
 
-export default function UnavailableErrorScreen() {
+export default function UnavailableError() {
      return (
         <View style={{padding:30, alignItems:"center"}}>
         <Text>ERROR:</Text>
