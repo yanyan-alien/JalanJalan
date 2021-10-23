@@ -89,10 +89,10 @@ export default function HomeScreen({ navigation }) {
             backgroundColor: "#B1F698",
             justifyContent: "center",
           }}
-          onPress={() => 
-            // if(connectionStatus)
-            navigation.navigate("Food")
-          }
+          onPress={() => {
+            if(connectionStatus) navigation.navigate("UnavailableError")
+            else navigation.navigate("Food")
+          }}
         >
           <Text style={{ textAlign: "center" }}>FOOD</Text>
           <Image
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    // marginTop: 22
   },
   modalView: {
     width: 250,

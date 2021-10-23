@@ -9,13 +9,18 @@ import {
 export default function HealthError({ navigation }) {
     return(
         <View style={[styles.container, { flexDirection: "column"}]}>
-        <View style={{flex:6}}>
+          
 
-        <Text style={{ fontSize: 30, marginTop: "10%", textAlign:"center"}}>
-            <Text style={{fontWeight:"bold"}}>Error:{"\n"}</Text>
-            Location services not available
-        </Text>
-        </View>
+          <View style={{flex:7, justifyContent:"center", alignContent:"center"}}>
+            <Text style={[styles.textStyle, {fontWeight:"bold", marginBottom:"5%"}]}>
+              Error:
+            </Text>
+            <Text style={styles.textStyle}>
+              Location services not available
+            </Text>
+          </View>
+
+          
         <View style={styles.feature_box}>
           <TouchableOpacity
             style={{
@@ -29,7 +34,7 @@ export default function HealthError({ navigation }) {
             <Text style={{ textAlign: "center", fontSize: 30 }}>REMINDERS</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 0.1 }}></View>
+        <View style={{ flex: 0.12 }}></View>
       </View>
 
         )};
@@ -37,7 +42,6 @@ export default function HealthError({ navigation }) {
 
         const styles = StyleSheet.create({
             container: {
-              // flexDirection: 'column',
               flex: 2,
               paddingHorizontal: 20,
               backgroundColor: "white",
@@ -49,11 +53,9 @@ export default function HealthError({ navigation }) {
               flexDirection: "row",
               alignContent: "flex-end",
             },
-            pictures: {
-              height: "30%",
-              width: "100%",
-              alignSelf: "center",
-              resizeMode: "contain",
-            },
+            textStyle: {
+              fontSize:36,
+              textAlign:"center",
+            }, 
           });
           

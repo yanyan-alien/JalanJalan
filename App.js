@@ -12,21 +12,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-
-// import React, { Component } from "react";
-// import { View, Text, Button, Alert, Platform } from "react-native";
-// import NetInfo from "@react-native-community/netinfo";
-
-// import {useNetInfo} from "@react-native-community/netinfo";
-
-// export default function YourComponent() {
-//   const netInfo = useNetInfo();
-//   if (!NetInfo.isConnected && NetInfo.isConnected !== null)
-//   console.log(netInfo.isConnected);
-//   return (
-//     <View>
-//       <Text>Type: {netInfo.type}</Text>
-//       {/* <Text>Is Connected? {netInfo.isConnected.toString()}</Text> */}
-//     </View>
-//   );
-// };
