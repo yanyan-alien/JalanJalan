@@ -1,7 +1,6 @@
 import React from "react";
 import { 
   Text,
-  Image,
   View,
   TouchableOpacity,
   StyleSheet
@@ -10,26 +9,23 @@ import {
 export default function UnavailableError({navigation}) {
      return (
         <View style={styles.container}>
+
           <View style={styles.textContainer}>
             <Text style={[styles.textStyle, {marginBottom: "10%", fontWeight:"bold"}]}>ERROR:</Text>
             <Text style={styles.textStyle}>No location services or mobile data available</Text>
           </View>
 
-          {/* <TouchableOpacity 
-            style={styles.button}
-            onPress={() => navigation.navigate("HomeScreen")}
-          >
-            <Text style={{textAlign:"center", fontSize:30}}>Return to Menu</Text>
-          </TouchableOpacity> */}
           <View style={styles.feature_box}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("HomeScreen")}
-          >
-            <Text style={{ textAlign: "center", fontSize: 30 }}>Return to Menu</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate("HomeScreen")}
+            >
+              <Text style={{ textAlign: "center", fontSize: 30 }}>Return to Menu</Text>
+            </TouchableOpacity>
         </View>
+
         <View style={{ flex: 0.12 }}></View>
+
       </View>
      );
  }

@@ -1,30 +1,77 @@
-import React from "react";
+import React,
+{ useCallback } from "react";
 import { 
   Text,
-  Image,
   View,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Linking,
  } from "react-native";
+
+ const OpenSettingsButton = ({ children }) => {
+  const handlePress = useCallback(async () => {
+    // Open the custom settings if the app has one
+    await Linking.openSettings();
+  }, []);
+
+  return (
+    <View style={styles.feature_box}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handlePress}
+      >
+        <Text style={{ textAlign: "center", fontSize: 30 }}>Tap to change Settings</Text>
+      </TouchableOpacity>
+    </View>
+  )
+
+};
 
 export default function EnableError() {
      return (
-        <View style={{padding:30, alignItems:"center"}}>
-        <Text>ERROR:</Text>
-        <Text>Please enable your location services and mobile data</Text>
-        <TouchableOpacity style={styles.button}>
-        <Text>Tap to change settings</Text>
-        </TouchableOpacity>
-      </View>
-     );
- }
+      <View style={styles.container}>
 
- const styles = StyleSheet.create({
-    button: {
-      height: "30%",
-      width: "80%",
-      borderRadius: 10,
-      backgroundColor: "#C4C4C4"
-      
-    }
-  })
+      <View style={styles.textContainer}>
+        <Text style={[styles.textStyle, {marginBottom: "10%", fontWeight:"bold"}]}>ERROR:</Text>
+        <Text style={styles.textStyle}>Please enable your location services and mobile data</Text>
+      </View>
+    <OpenSettingsButton/>
+    <View style={{ flex: 0.12 }}></View>
+
+  </View>
+ );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    display:"flex",
+    flexDirection:"column",
+    paddingHorizontal:"10%",
+    alignItems:"center",
+    backgroundColor: "white",
+  },
+
+  button: {
+    backgroundColor: "#C4C4C4",
+    justifyContent: "center",
+    width: 350,
+    borderRadius: 24,
+  },
+
+  textStyle: {
+    fontSize:36,
+    textAlign:"center",
+  }, 
+
+  textContainer: {
+    justifyContent:"center",
+    flex:7,
+  },
+
+  feature_box: {
+    flex: 1,
+    flexDirection: "row",
+    alignContent: "flex-end",
+  },
+})

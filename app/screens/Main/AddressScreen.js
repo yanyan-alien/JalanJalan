@@ -1,13 +1,26 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+// import { BasicInfoScreen } from "../Setup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const name = "Tan Ah Kow";
 const address = ["123 Chua Chu Kang Road", "#04-05", "S678910"];
 const nextOfKinInfo = ["Tan Ah Beng", "+65 9123 45678"];
 
-export default function AddressScreen() {
+export default function AddressScreen({navigation}) {
   return (
-    <View style={{ flex: 1, padding: "5%" }}>
+    <View style={{ flex: 1, padding: "5%" , backgroundColor:"white"}}>
+
+      <TouchableOpacity
+         onPress={() => navigation.navigate("BasicInfoScreen")} //to fix
+         style={{flexDirection:"row", justifyContent:"flex-end"}}
+      >
+        <Image
+          source={require("../../assets/edit_button.png")}
+          style={styles.editIcon}
+        />
+      </TouchableOpacity>
+
       <Text style={{ fontSize: 36, fontWeight: "bold" }}>{name}</Text>
       <View style={{ paddingVertical: "10%" }}>
         <Text style={{ fontSize: 36 }}>{address[0]}</Text>
@@ -34,5 +47,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
+  },
+  editIcon: {
+    height: 40,
+    width: 40,
   },
 });

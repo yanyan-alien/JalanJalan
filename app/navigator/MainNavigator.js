@@ -25,10 +25,10 @@ export default function MainNavigator() {
   return (
     <Stack.Navigator
       initialRouteName="HomeScreen"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{headerTitleAlign:"center", title:"MENU"}}
     >
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Group>
+      <Stack.Screen name="HomeScreen" component={HomeScreen}/>
+      <Stack.Group screenOptions={{headerShown:true, title:"HEALTH", headerTitleAlign:"center"}}>
         <Stack.Screen name="Health" component={HealthScreen} />
         <Stack.Screen name="HealthError" component={HealthError} />
         <Stack.Screen name="HealthList" component={HealthListScreen} />
@@ -37,19 +37,19 @@ export default function MainNavigator() {
         <Stack.Screen name="ReminderMain" component={RemindersMainScreen} />
         <Stack.Screen name="ReminderAll" component={AllRemindersScreen} />
       </Stack.Group>
-      <Stack.Group>
+      <Stack.Group screenOptions={{headerShown:true, title:"TAXI", headerTitleAlign:"center"}}>
         <Stack.Screen name="Taxi" component={TaxiScreen} />
       </Stack.Group>
-      <Stack.Group>
+      <Stack.Group screenOptions={{headerShown:true, title:"FOOD", headerTitleAlign:"center"}}>
         <Stack.Screen name="Food" component={FoodScreen} />
         <Stack.Screen name="FoodReco" component={FoodRecoScreen} />
         <Stack.Screen name="FoodList" component={FoodListScreen} />
         <Stack.Screen name="FoodMap" component={FoodMapScreen} />
       </Stack.Group>
-      <Stack.Group>
+      <Stack.Group screenOptions={{headerShown:true, title:"EMERGENCY", headerTitleAlign:"center"}}>
         <Stack.Screen name="Emergency" component={EmergencyScreen} />
       </Stack.Group>
-      <Stack.Group>
+      <Stack.Group screenOptions={{headerShown:true, title:"ERROR", headerTitleAlign:"center"}}>
         <Stack.Screen name="UnavailableError" component={UnavailableError} />
         <Stack.Screen name="EnableError" component={EnableError} />
       </Stack.Group>
