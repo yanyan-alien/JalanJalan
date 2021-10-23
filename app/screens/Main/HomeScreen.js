@@ -1,8 +1,17 @@
 import React, {useState} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Modal} from "react-native";
+import {NetInfo, useNetInfo, state} from "@react-native-community/netinfo";
 
 export default function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState(false);
+  let NetInfoSubscription = null;
+
+  const handleConnectionChange = (state) => {
+    setConnectionStatus(state.isConnected);
+  };
+  
+
   return (
     <View style={styles.centeredView}>   
       <View style={styles.container}>
@@ -15,7 +24,7 @@ export default function HomeScreen({ navigation }) {
               }}
             onPress={() => setModalVisible(true)}
             >
-            <Text style={{ textAlign: "center" }}>TAXI</Text>
+            <Text style={styles.textStyle}>TAXI</Text>
             <Image
               style={styles.pictures}
               source={require("../../assets/local_taxi.png")}
@@ -59,9 +68,14 @@ export default function HomeScreen({ navigation }) {
             backgroundColor: "#A5EFFF",
             justifyContent: "center",
           }}
-          onPress={() => navigation.navigate("Health")}
+          onPress={() =>  {
+            // setConnectionStatus(NetInfo.isConnected);
+            console.log(connectionStatus)
+            if(connectionStatus) navigation.navigate("HealthError")
+            else navigation.navigate("Health")}
+          }
         >
-          <Text style={{ textAlign: "center" }}>HEALTH</Text>
+          <Text style={styles.textStyle}>HEALTH</Text>
           <Image
             style={styles.pictures}
             source={require("../../assets/health.png")}
@@ -76,9 +90,12 @@ export default function HomeScreen({ navigation }) {
             backgroundColor: "#B1F698",
             justifyContent: "center",
           }}
-          onPress={() => navigation.navigate("Food")}
+          onPress={() => {
+            if(connectionStatus) navigation.navigate("EnableError")
+            else navigation.navigate("Food")
+          }}
         >
-          <Text style={{ textAlign: "center" }}>FOOD</Text>
+          <Text style={styles.textStyle}>FOOD</Text>
           <Image
             style={styles.pictures}
             source={require("../../assets/restaurant.png")}
@@ -92,7 +109,7 @@ export default function HomeScreen({ navigation }) {
           }}
           onPress={() => navigation.navigate("Emergency")}
         >
-          <Text style={{ textAlign: "center" }}>EMERGENCY</Text>
+          <Text style={styles.textStyle}>EMERGENCY</Text>
           <Image
             style={styles.pictures}
             source={require("../../assets/emergency.png")}
@@ -134,7 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    // marginTop: 22
   },
   modalView: {
     width: 250,
@@ -183,5 +200,9 @@ const styles = StyleSheet.create({
   modalPic: {
     height: 50,
     width: 50,
+  },
+  textStyle: {
+    textAlign: "center",
+    fontSize: 25,
   }
 });

@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AddressScreen, ProfileScreen } from "../screens/Main";
 import MainNavigator from "./MainNavigator";
 import { SetupScreen } from "../screens/Setup";
+import { FoodScreen } from "../screens/Food";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,7 @@ export default function TabNavigator() {
         options={{
           headerTitleAlign: "center",
           tabBarShowLabel: false,
+          headerShown:false,
         }}
       />
       <Tab.Screen
@@ -55,6 +57,7 @@ export default function TabNavigator() {
           tabBarShowLabel: false,
         }}
       />
+      
     </Tab.Navigator>
   );
 }

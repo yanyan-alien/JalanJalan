@@ -16,7 +16,6 @@ export default function HealthScreen({ navigation }) {
           Nearest Clinics:
         </Text>
       </View>
-
       <View
         style={{
           flex: 2,
