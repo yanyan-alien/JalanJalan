@@ -5,8 +5,8 @@ import { Picker } from "@react-native-picker/picker";
 
 const bloodTypes = ["A", "B", "AB", "O"];
 
-export default function HealthInfoScreen({ navigation }) {
-  const [bloodType, setbloodType] = useState("A");
+export default function HealthInfoScreen({ navigation, bloodType, onUpdate }) {
+  // const [bloodType, setbloodType] = useState("A");
 
   return (
     <View style={styles.container}>
@@ -19,7 +19,7 @@ export default function HealthInfoScreen({ navigation }) {
         <View style={[commonStyles.textInput, styles.selectInput]}>
           <Picker
             selectedValue={bloodType}
-            onValueChange={(itemValue) => setbloodType(itemValue)}
+            onValueChange={(itemValue) => onUpdate("bloodType", itemValue)}
             style={styles.selectInput}
             mode="dropdown"
           >

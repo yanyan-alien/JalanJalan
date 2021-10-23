@@ -25,7 +25,7 @@ export default function HealthScreen({ navigation }) {
         }}
       >
         <Text style={{ fontSize: 30, marginTop: "10%" }}>
-          1. (Name of hospital)
+          1. MOH Clinic
         </Text>
       </View>
 
@@ -37,8 +37,8 @@ export default function HealthScreen({ navigation }) {
             width: 350,
             borderRadius: 24,
           }}
-          onPress={() => {navigation.navigate('HealthList');
-        }}
+          onPress={() => navigation.navigate('HealthMap',  {choice : 1})
+        }
         >
           <Text style={{ textAlign: "center", fontSize: 30 }}>Directions</Text>
         </TouchableOpacity>
@@ -52,7 +52,7 @@ export default function HealthScreen({ navigation }) {
         }}
       >
         <Text style={{ fontSize: 30, marginTop: "10%" }}>
-          2. (Name of polyclinic)
+          2. Hospital
         </Text>
       </View>
 
@@ -71,7 +71,7 @@ export default function HealthScreen({ navigation }) {
               width: 350,
               borderRadius: 24,
             }}
-            onPress={() => navigation.navigate("HealthList")}
+            onPress={() => navigation.navigate("HealthMap", {choice : 3})}
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>
               Directions

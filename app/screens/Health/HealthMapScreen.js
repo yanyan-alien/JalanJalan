@@ -1,53 +1,117 @@
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,Dimensions } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from "react-native-geolocation-service";
 import clinics from "./clinic-data.json";
+import hospital from "./hospital-data.json";
 import *  as Permissions from 'expo-permissions';
+import getDirections from 'react-native-google-maps-directions';
 
 
+export default function Health_MapScreen({ navigation, route }){
 
-export default function Health_MapScreen({ navigation }){
+  //const {choice} = route.params;
+  let choice = null;
+  if (route.params != undefined)
+  {
+    choice = route.params.choice;
+  }
+  console.log(choice);
 
-  const [location, setLocation] = React.useState(null);
-  React.useEffect(() => {
-        (async () => {
-            let permissionStatus = null;
-            
-            let {status} = await Permissions.askAsync(Permissions.LOCATION);
-            permissionStatus = status;
-             
-            if (permissionStatus !== 'granted') {
-                return;
-            }
-            let location = await Geolocation.getCurrentPositionAsync({});
-            setLocation(location);
-            console.log(location);
-        })();
-    }, []);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const origin = {latitude: 1.3483, longitude:103.6831};
+
+  useEffect(() => {
+    (async () => {
+      //console.log("Hello!");
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      //console.log(status);
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+      
+      //let location = await Location.getCurrentPositionAsync({});
+      //Location.getCurrentPositionAsync({}).catch(err => console.log(err));
+      let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
+      console.log(location);
+      //origin.latitude = location.coords.latitude;
+      //origin.longitude = location.coords.longitude;
+      //console.log(origin);  //Cant store this values
+      //setLocation(location);
+    })();
+  }, []);
+  
+  //console.log(origin);
 
   //latitude: 1.3483, longitude:103.6831 (NTU)
   //latitude: 1.3417, longitude:103.7759 (Beauty world)
   //latitude: 1.3508, longitude:103.8723 (NEX)
 
-  const origin = {latitude: 1.3483, longitude:103.6831};
+  //const origin = {latitude: location.coor.latitude, longitude:location.coor.longitude};
   const LATITUDE_DELTA = 0.008000;
   const LONGITUDE_DELTA = 0.008000;
-  const destination = {latitude: 1.357371, longitude: 103.765726};
+  const destination = {latitude: 1.3012, longitude: 103.8571};
 
-  let difference2 = 1;
-  for (let index = 0; index < clinics.features.length; index++) {
-      let difference = (origin.latitude - clinics.features[index].geometry.coordinates[1]) + 
-            (origin.longitude- clinics.features[index].geometry.coordinates[0])
-      if (difference>-0.0005 && difference<0.0005 && difference<difference2)
-      {
-          difference2 = difference;
-          destination.latitude = clinics.features[index].geometry.coordinates[1];
-          destination.longitude = clinics.features[index].geometry.coordinates[0];
-      }
-    
+  if (choice == 1)
+  {
+    let difference2 = 1;
+    for (let index = 0; index < clinics.features.length; index++) {
+        let difference = (origin.latitude - clinics.features[index].geometry.coordinates[1]) + 
+              (origin.longitude- clinics.features[index].geometry.coordinates[0])
+        if (difference>-0.005 && difference<0.005 && difference<difference2)
+        {
+            difference2 = difference;
+            destination.latitude = clinics.features[index].geometry.coordinates[1];
+            destination.longitude = clinics.features[index].geometry.coordinates[0];
+        }
+      
+    }
+  }
+  else
+  {
+    let difference2 = 1;
+    for (let index = 0; index < hospital.hospitals.length; index++) {
+        let difference = (origin.latitude - hospital.hospitals[index].coor[1]) + 
+              (origin.longitude- hospital.hospitals[index].coor[0])
+        if (difference>-0.05 && difference<0.05 && difference<difference2)
+        {
+            difference2 = difference;
+            destination.latitude = hospital.hospitals[index].coor[1];
+            destination.longitude = hospital.hospitals[index].coor[0];
+        }
+      
+    }
+  }
+  
+
+
+  const handleGetDirections = () => {
+    const data = {
+       source: {
+        latitude:  origin.latitude,
+        longitude: origin.longitude
+      },
+      destination: {
+        latitude: destination.latitude,
+        longitude: destination.longitude
+      },
+      params: [
+        {
+          key: "travelmode",
+          value: "driving"        // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: "dir_action",
+          value: "navigate"       // this instantly initializes navigation using the given travel mode
+        }
+      ],
+    }
+ 
+    getDirections(data)
   }
 
 
@@ -86,10 +150,10 @@ export default function Health_MapScreen({ navigation }){
             width: 1000,
             borderRadius: 24,
           }}
-          onPress={() => navigation.navigate("HealthList")}
+          onPress={handleGetDirections}
         >
           <Text style={{ textAlign: "center", fontSize: 30 }}>
-            Tap for List View
+            Tap for Google Maps
           </Text>
         </TouchableOpacity>
       </View>

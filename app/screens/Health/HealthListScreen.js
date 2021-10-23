@@ -1,7 +1,36 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import getDirections from 'react-native-google-maps-directions';
 
 export default function Health_listScreen({ navigation }) {
+
+
+  handleGetDirections = () => {
+    const data = {
+       source: {
+        latitude:  1.3483,
+        longitude: 103.6831
+      },
+      destination: {
+        latitude: 1.29113483647707,
+        longitude: 103.826764453903
+      },
+      params: [
+        {
+          key: "travelmode",
+          value: "driving"        // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: "dir_action",
+          value: "navigate"       // this instantly initializes navigation using the given travel mode
+        }
+      ],
+    }
+ 
+    getDirections(data)
+  }
+
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={styles.feature_box}>
@@ -26,9 +55,19 @@ export default function Health_listScreen({ navigation }) {
           alignItems: "center",
         }}
       >
-        <Text style={{ fontSize: 30, marginTop: "10%" }}>
-          (Directions by Google Maps)
-        </Text>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#3FDCFF",
+            justifyContent: "center",
+            width: 1000,
+            borderRadius: 24,
+          }}
+          onPress={this.handleGetDirections}
+        >
+          <Text style={{ textAlign: "center", fontSize: 30 }}>
+            Tap for Google Maps
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
