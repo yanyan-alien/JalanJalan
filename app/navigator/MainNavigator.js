@@ -15,6 +15,9 @@ import {
 } from "../screens/Food";
 import { EmergencyScreen } from "../screens/Emergency";
 import ReminderHandler from "../screens/Reminder/ReminderHandler";
+import RemindersMainScreen from "../screens/Reminder/RemindersMainScreen";
+import AllRemindersScreen from "../screens/Reminder/AllRemindersScreen";
+import HealthError from "../screens/Error/HealthErrorScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,9 +30,12 @@ export default function MainNavigator() {
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Group>
         <Stack.Screen name="Health" component={HealthScreen} />
+        <Stack.Screen name="HealthError" component={HealthError} />
         <Stack.Screen name="HealthList" component={HealthListScreen} />
         <Stack.Screen name="HealthMap" component={HealthMapScreen} />
         <Stack.Screen name="ReminderHandler" component={ReminderHandler} />
+        <Stack.Screen name="ReminderMain" component={RemindersMainScreen} />
+        <Stack.Screen name="ReminderAll" component={AllRemindersScreen} />
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="Taxi" component={TaxiScreen} />

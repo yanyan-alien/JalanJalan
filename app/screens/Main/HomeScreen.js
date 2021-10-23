@@ -1,8 +1,17 @@
 import React, {useState} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Modal} from "react-native";
+import {NetInfo, useNetInfo} from "@react-native-community/netinfo";
 
 export default function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState(false);
+  let NetInfoSubscription = null;
+
+  const handleConnectionChange = (state) => {
+    setConnectionStatus(state.isConnected);
+  };
+  
+
   return (
     <View style={styles.centeredView}>   
       <View style={styles.container}>
@@ -15,7 +24,7 @@ export default function HomeScreen({ navigation }) {
               }}
             onPress={() => setModalVisible(true)}
             >
-            <Text style={{ textAlign: "center" }}>TAXI</Text>
+            <Text style={{ textAlign: "center" , fontWeight:"bold"}}>TAXI</Text>
             <Image
               style={styles.pictures}
               source={require("../../assets/local_taxi.png")}
@@ -59,7 +68,11 @@ export default function HomeScreen({ navigation }) {
             backgroundColor: "#A5EFFF",
             justifyContent: "center",
           }}
-          onPress={() => navigation.navigate("Health")}
+          onPress={() =>  {
+            console.log(connectionStatus)
+            if(!connectionStatus) navigation.navigate("HealthError")
+            else navigation.navigate("Health")}
+          }
         >
           <Text style={{ textAlign: "center" }}>HEALTH</Text>
           <Image

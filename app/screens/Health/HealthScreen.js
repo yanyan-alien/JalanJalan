@@ -16,7 +16,6 @@ export default function HealthScreen({ navigation }) {
           Nearest Clinics:
         </Text>
       </View>
-
       <View
         style={{
           flex: 2,
@@ -95,7 +94,7 @@ export default function HealthScreen({ navigation }) {
               width: 350,
               borderRadius: 24,
             }}
-            onPress={() => navigation.navigate("ReminderHandler")}
+            onPress={() => navigation.navigate("ReminderMain")}
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>REMINDERS</Text>
           </TouchableOpacity>
