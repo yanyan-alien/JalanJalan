@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { 
   Text,
   Image,
@@ -9,7 +9,7 @@ import {
  } from "react-native";
 import { useState } from "react";
 import {Linking} from 'react-native'
-import {AsyncStorage} from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function EmergencyScreen({ navigation,async }) {
@@ -21,6 +21,21 @@ export default function EmergencyScreen({ navigation,async }) {
   const [number, setNumber] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [text, setText] = useState(text);
+  const [nokData, setNokData] = useState({  nokName: '', nokNumber: '' });
+
+  // Fetch NokName and contact from storage
+  useEffect(() => {
+    async function fetchFromStorage() {
+      let stateArr = await AsyncStorage.multiGet(["nokName", "nokNumber"]);
+      stateArr = stateArr.map(([key, value]) => [
+        key,
+        value == null ? "" : value,
+      ]); // Default to empty string
+      setNokData(Object.fromEntries(stateArr))
+    }
+    fetchFromStorage();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text> Click on the button you want to call</Text>
@@ -37,8 +52,7 @@ export default function EmergencyScreen({ navigation,async }) {
             <Image source={ambulance}/>
           </TouchableOpacity>
           <TouchableOpacity style={styles.NOKButton}
-            onPress={() => setModalVisible(!modalVisible) || setText("NOKName") || setPic(pictures.nextofkin) || setNumber('tel: 96105906')} 
-            //TODO: Find a way to access Next of Kin name and contact number from async storage so it can be updated here accordingly
+            onPress={() => setModalVisible(!modalVisible) || setText(nokData.nokName) || setPic(pictures.nextofkin) || setNumber('tel: ' + nokData.nokNumber)} 
           >
             <Image source={nextofkin}/>
           </TouchableOpacity>
