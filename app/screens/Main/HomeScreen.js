@@ -1,8 +1,13 @@
 import React, {useState} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Modal} from "react-native";
+import * as SMS from 'expo-sms';
 
 export default function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  async function handleSend() {
+    const result = await SMS.sendSMSAsync('96105906', 'I want taxi pls!')
+    console.log('results', result)
+    }
   return (
     <View style={styles.centeredView}>   
       <View style={styles.container}>
@@ -39,7 +44,7 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.parent}>
               <TouchableOpacity
               style={[styles.buttonGreen]}
-              onPress={() => setModalVisible(!modalVisible) || navigation.navigate("Taxi")}
+              onPress={() => setModalVisible(!modalVisible) ||navigation.navigate("Taxi")|| handleSend() }
               >
               <Text style={styles.textStyle}>Yes</Text>
               </TouchableOpacity>
