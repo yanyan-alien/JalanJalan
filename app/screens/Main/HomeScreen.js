@@ -1,18 +1,14 @@
 import React, {useState} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Modal} from "react-native";
-<<<<<<< HEAD
 import * as SMS from 'expo-sms';
+import {NetInfo, useNetInfo, state} from "@react-native-community/netinfo";
 
 export default function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   async function handleSend() {
     const result = await SMS.sendSMSAsync('96105906', 'I want taxi pls!')
     console.log('results', result)
-    }
-=======
-import {NetInfo, useNetInfo, state} from "@react-native-community/netinfo";
-
-export default function HomeScreen({ navigation }) {
+  }
   const [modalVisible, setModalVisible] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState(false);
   let NetInfoSubscription = null;
@@ -21,8 +17,6 @@ export default function HomeScreen({ navigation }) {
     setConnectionStatus(state.isConnected);
   };
   
-
->>>>>>> ce0bcf3dd954cb7a50c640b7bebd71144107c3bf
   return (
     <View style={styles.centeredView}>   
       <View style={styles.container}>
