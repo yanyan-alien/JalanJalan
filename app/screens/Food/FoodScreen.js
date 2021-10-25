@@ -13,7 +13,7 @@ export default function FoodScreen({ navigation }) {
             borderRadius: 24,
             top: "20%",
           }}
-          onPress={() => navigation.navigate("FoodReco")}
+          onPress={() => navigation.navigate("FoodMap", {choice : 1})}
         >
           <Text style={{ textAlign: "center", fontSize: 30 }}>
             Coffeeshop/Hawker Centre
@@ -37,10 +37,10 @@ export default function FoodScreen({ navigation }) {
               borderRadius: 24,
               top: "40%",
             }}
-            onPress={() => navigation.navigate("FoodReco")}
+            onPress={() => navigation.navigate("FoodMap", {choice : 3})}
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>
-              Restaurants
+              Supermarket
             </Text>
           </TouchableOpacity>
         </View>

@@ -22,7 +22,7 @@ export default function FoodRecoScreen({ navigation }) {
             width: 350,
             borderRadius: 24,
           }}
-          onPress={() => navigation.navigate("FoodList")}
+          onPress={() => navigation.navigate("FoodMap")}
         >
           <Text style={{ textAlign: "center", fontSize: 30 }}>Directions</Text>
         </TouchableOpacity>
@@ -53,7 +53,7 @@ export default function FoodRecoScreen({ navigation }) {
               width: 350,
               borderRadius: 24,
             }}
-            onPress={() => navigation.navigate("FoodList")}
+            onPress={() => navigation.navigate("FoodMap")}
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>
               Directions
