@@ -5,18 +5,15 @@ import {NetInfo, useNetInfo, state} from "@react-native-community/netinfo";
 
 export default function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState(false);
+  let NetInfoSubscription = null;
+  const handleConnectionChange = (state) => {
+    setConnectionStatus(state.isConnected);
+  };
   async function handleSend() {
     const result = await SMS.sendSMSAsync('96105906', 'I want taxi pls!')
     console.log('results', result)
   }
-  const [modalVisible, setModalVisible] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState(false);
-  let NetInfoSubscription = null;
-
-  const handleConnectionChange = (state) => {
-    setConnectionStatus(state.isConnected);
-  };
-  
   return (
     <View style={styles.centeredView}>   
       <View style={styles.container}>
