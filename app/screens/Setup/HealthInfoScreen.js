@@ -43,7 +43,7 @@ export default function HealthInfoScreen({
   };
 
   const next = () => {
-    const newInvalid = bloodType.length == 0;
+    const newInvalid = !bloodType || bloodType.length == 0;
     setInvalid(newInvalid);
     if (!newInvalid) navigation.navigate("contact");
   };
