@@ -23,8 +23,8 @@ export default function ContactInfoScreen({
       name: nokName,
       number: nokNumber,
     });
+    setError(errorMessages);
     if (valid) navigation.navigate("review");
-    else setError(errorMessages);
   };
 
   return (
