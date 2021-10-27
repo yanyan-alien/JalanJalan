@@ -12,7 +12,7 @@ export default function ProfileScreen({navigation}) {
     <ScrollView style={{ flex: 1, padding: "5%" , backgroundColor:"white"}}>
 
       <TouchableOpacity
-         onPress={() => navigation.navigate("BasicInfoScreen")} //to fix
+         onPress={() => navigation.navigate('SETUP', { screen: 'basic' })} //to fix
          style={{flexDirection:"row", justifyContent:"flex-end"}}
       >
         <Image
