@@ -8,6 +8,9 @@ import clinics from "./clinic-data.json";
 import hospital from "./hospital-data.json";
 import *  as Permissions from 'expo-permissions';
 import getDirections from 'react-native-google-maps-directions';
+import Geocoder from 'react-native-geocoding';
+
+Geocoder.init('AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY');
 
 
 export default function Health_MapScreen({ navigation, route }){
@@ -18,11 +21,16 @@ export default function Health_MapScreen({ navigation, route }){
   {
     choice = route.params.choice;
   }
-  console.log(choice);
+  //console.log(choice);
 
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState({ latitude: 1.3483, longitude:103.6831  });
   const [errorMsg, setErrorMsg] = useState(null);
-  const origin = {latitude: 1.3483, longitude:103.6831};
+  const [postal, setPostal] = useState(111111);
+
+  const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
+    'Wait, we are fetching you location...'
+  );
+  
 
   useEffect(() => {
     (async () => {
@@ -34,24 +42,51 @@ export default function Health_MapScreen({ navigation, route }){
         return;
       }
       
-      //let location = await Location.getCurrentPositionAsync({});
-      //Location.getCurrentPositionAsync({}).catch(err => console.log(err));
       let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
-      console.log(location);
-      //origin.latitude = location.coords.latitude;
-      //origin.longitude = location.coords.longitude;
-      //console.log(origin);  //Cant store this values
-      //setLocation(location);
+      //console.log(location);
+
+      setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
+
+
+      /*if (location.coords)
+      {
+        const { latitude, longitude } = location.coords;
+        let response = await Location.reverseGeocodeAsync({
+          latitude,
+          longitude
+        });
+      
+      
+      
+
+      for (let item of response) {
+        let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
+        
+        setDisplayCurrentAddress(address);
+      }
+      
+      //}
+
+      //Geocoder.from(location.coords.latitude, location.coords.longitude).then(json => {console.log(json)});
+      //setAddress(json.results[0].address_components);
+      }*/
+
     })();
   }, []);
-  
-  //console.log(origin);
 
+  fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.latitude + ',' +location.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                let postal = responseJson.results[1].address_components[5].long_name;
+                //console.log(postal);
+                setPostal(postal);
+              } )
+  console.log(postal);
+  
   //latitude: 1.3483, longitude:103.6831 (NTU)
   //latitude: 1.3417, longitude:103.7759 (Beauty world)
   //latitude: 1.3508, longitude:103.8723 (NEX)
 
-  //const origin = {latitude: location.coor.latitude, longitude:location.coor.longitude};
   const LATITUDE_DELTA = 0.008000;
   const LONGITUDE_DELTA = 0.008000;
   const destination = {latitude: 1.3012, longitude: 103.8571};
@@ -60,9 +95,9 @@ export default function Health_MapScreen({ navigation, route }){
   {
     let difference2 = 1;
     for (let index = 0; index < clinics.features.length; index++) {
-        let difference = (origin.latitude - clinics.features[index].geometry.coordinates[1]) + 
-              (origin.longitude- clinics.features[index].geometry.coordinates[0])
-        if (difference>-0.005 && difference<0.005 && difference<difference2)
+        let difference = Math.abs(location.latitude - clinics.features[index].geometry.coordinates[1]) + 
+          Math.abs(location.longitude- clinics.features[index].geometry.coordinates[0])
+        if (difference<0.5 && difference<difference2)
         {
             difference2 = difference;
             destination.latitude = clinics.features[index].geometry.coordinates[1];
@@ -75,9 +110,9 @@ export default function Health_MapScreen({ navigation, route }){
   {
     let difference2 = 1;
     for (let index = 0; index < hospital.hospitals.length; index++) {
-        let difference = (origin.latitude - hospital.hospitals[index].coor[1]) + 
-              (origin.longitude- hospital.hospitals[index].coor[0])
-        if (difference>-0.05 && difference<0.05 && difference<difference2)
+        let difference = Math.abs(location.latitude - hospital.hospitals[index].coor[1]) + 
+        Math.abs(location.longitude- hospital.hospitals[index].coor[0])
+        if (difference<0.5 && difference<difference2)
         {
             difference2 = difference;
             destination.latitude = hospital.hospitals[index].coor[1];
@@ -92,8 +127,8 @@ export default function Health_MapScreen({ navigation, route }){
   const handleGetDirections = () => {
     const data = {
        source: {
-        latitude:  origin.latitude,
-        longitude: origin.longitude
+        latitude:  location.latitude,
+        longitude: location.longitude
       },
       destination: {
         latitude: destination.latitude,
@@ -138,7 +173,8 @@ export default function Health_MapScreen({ navigation, route }){
   
   
 
-  const GOOGLE_MAPS_APIKEY = 'AIzaSyA0kXRrclRwf4YehX347dpDUqZH3H1BovU';
+  //const GOOGLE_MAPS_APIKEY = process.env.REACT_APP_GOOGLE_MAPS_APIKEY;
+  const GOOGLE_MAPS_APIKEY = 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY';
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -162,14 +198,14 @@ export default function Health_MapScreen({ navigation, route }){
           width: Dimensions.get('window').width,
           height: Dimensions.get('window').height - 180}}
           initialRegion ={{
-          latitude: origin.latitude,
-          longitude: origin.longitude,
+          latitude:location.latitude,
+          longitude: location.longitude,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA
         }}
         >
           <MapViewDirections
-          origin={origin}
+          origin={location}
           destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
           mode= {"WALKING"}
@@ -177,7 +213,7 @@ export default function Health_MapScreen({ navigation, route }){
           strokeColor = {"red"}
           />
           <MapView.Marker 
-          coordinate={origin}
+          coordinate={location}
           title ={"Start"}
            />
           <MapView.Marker 

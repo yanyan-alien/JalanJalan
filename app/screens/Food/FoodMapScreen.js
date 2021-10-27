@@ -21,11 +21,10 @@ export default function Food_MapScreen({ navigation , route}) {
    {
      choice = route.params.choice;
    }
-   console.log(choice);
  
-   const [location, setLocation] = useState(null);
+   const [location, setLocation] = useState({ latitude: 1.3483, longitude:103.6831  });
    const [errorMsg, setErrorMsg] = useState(null);
-   const origin = {latitude: 1.3483, longitude:103.6831};
+   //const origin = {latitude: 1.3483, longitude:103.6831};
  
    useEffect(() => {
      (async () => {
@@ -40,11 +39,11 @@ export default function Food_MapScreen({ navigation , route}) {
        //let location = await Location.getCurrentPositionAsync({});
        //Location.getCurrentPositionAsync({}).catch(err => console.log(err));
        let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
-       console.log(location);
+       //console.log(location);
        //origin.latitude = location.coords.latitude;
        //origin.longitude = location.coords.longitude;
        //console.log(origin);  //Cant store this values
-       //setLocation(location);
+       setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
      })();
    }, []);
 
@@ -52,15 +51,15 @@ export default function Food_MapScreen({ navigation , route}) {
   const LATITUDE_DELTA = 0.008000;
   const LONGITUDE_DELTA = 0.008000;
   const destination = {latitude: 1.357371, longitude: 103.765726};
-  const GOOGLE_MAPS_APIKEY = 'AIzaSyA0kXRrclRwf4YehX347dpDUqZH3H1BovU';
+  const GOOGLE_MAPS_APIKEY = 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY';
 
   if (choice == 1)
   {
     let difference2 = 1;
     for (let index = 0; index < hawker.features.length; index++) {
-        let difference = (origin.latitude - hawker.features[index].geometry.coordinates[1]) + 
-              (origin.longitude- hawker.features[index].geometry.coordinates[0])
-        if (difference>-0.01 && difference<0.01 && difference<difference2)
+        let difference = Math.abs(location.latitude - hawker.features[index].geometry.coordinates[1]) + 
+          Math.abs(location.longitude- hawker.features[index].geometry.coordinates[0])
+        if (difference<0.05 && (difference)<difference2)
         {
             difference2 = difference;
             destination.latitude = hawker.features[index].geometry.coordinates[1];
@@ -73,8 +72,8 @@ export default function Food_MapScreen({ navigation , route}) {
   {
     let difference2 = 1;
     for (let index = 0; index < supermarkets.features.length; index++) {
-        let difference = (origin.latitude - supermarkets.features[index].geometry.coordinates[1]) + 
-              (origin.longitude- supermarkets.features[index].geometry.coordinates[0])
+        let difference =  Math.abs(location.latitude - supermarkets.features[index].geometry.coordinates[1]) + 
+          Math.abs(location.longitude- supermarkets.features[index].geometry.coordinates[0])
         if (difference>-0.01 && difference<0.01 && difference<difference2)
         {
             difference2 = difference;
@@ -87,8 +86,8 @@ export default function Food_MapScreen({ navigation , route}) {
   const handleGetDirections = () => { //For Google Maps
     const data = {
        source: {
-        latitude:  origin.latitude,
-        longitude: origin.longitude
+        latitude:  location.latitude,
+        longitude: location.longitude
       },
       destination: {
         latitude: destination.latitude,
@@ -134,14 +133,14 @@ export default function Food_MapScreen({ navigation , route}) {
           width: Dimensions.get('window').width,
           height: Dimensions.get('window').height - 180}}
           initialRegion ={{
-          latitude: origin.latitude,
-          longitude: origin.longitude,
+          latitude: location.latitude,
+          longitude: location.longitude,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA
         }}
         >
           <MapViewDirections
-          origin={origin}
+          origin={location}
           destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
           mode= {"WALKING"}
@@ -149,7 +148,7 @@ export default function Food_MapScreen({ navigation , route}) {
           strokeColor = {"red"}
           />
           <MapView.Marker 
-          coordinate={origin}
+          coordinate={location}
           title ={"Start"}
            />
           <MapView.Marker 
