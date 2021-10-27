@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  ToastAndroid,
 } from "react-native";
 import commonStyles from "./commonStyles";
 import moment from "moment";
@@ -20,22 +21,27 @@ const labels = {
   bloodType: "Blood Type",
   nokName: "Emergency Contact",
   nokNumber: "Contact No.",
+  medications: "Current Medications",
+  conditions: "Medical Conditions",
 };
 
-const storeUserData = async (formEntries) => {
+const storeUserData = async (form) => {
+  const formEntries = Object.entries({
+    ...form,
+    birthday: form.birthday ? form.birthday.toISOString() : "",
+    medications: JSON.stringify(form.medications),
+    conditions: JSON.stringify(form.conditions),
+  });
+
   try {
     await AsyncStorage.multiSet(formEntries);
+    ToastAndroid.show("Saved!", ToastAndroid.SHORT);
   } catch (e) {
     //TODO: Handle saving error
     console.log(e);
   }
 };
 export default function ReviewScreen({ navigation, form }) {
-  const formEntries = Object.entries({
-    ...form,
-    birthday: form.birthday.toISOString(),
-  });
-
   return (
     <View style={styles.container}>
       <Text style={commonStyles.title}>Review</Text>
@@ -45,7 +51,11 @@ export default function ReviewScreen({ navigation, form }) {
             <Text style={styles.label}>{label}</Text>
             <Text style={styles.value}>
               {key == "birthday"
-                ? moment(form[key]).format("DD MMM YYYY")
+                ? form[key]
+                  ? moment(form[key]).format("DD MMM YYYY")
+                  : ""
+                : key == "medications" || key == "conditions"
+                ? form[key].join("\n")
                 : form[key]}
             </Text>
           </View>
@@ -59,7 +69,7 @@ export default function ReviewScreen({ navigation, form }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={commonStyles.button}
-            onPress={() => storeUserData(formEntries)}
+            onPress={() => storeUserData(form)}
           >
             <Text style={commonStyles.buttonText}>Save</Text>
           </TouchableOpacity>
@@ -79,12 +89,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   value: {
-    fontSize: 24,
+    fontSize: 20,
     flex: 1,
+    paddingLeft: 10,
   },
   itemContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     flex: 1,
     marginBottom: 20,
   },
