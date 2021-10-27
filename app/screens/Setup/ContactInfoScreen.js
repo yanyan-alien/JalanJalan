@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   StyleSheet,
 } from "react-native";
 import commonStyles from "./commonStyles";
+import CustomInput from "./Components/CustomInput";
+import { contactInfoValidator } from "./InputValidator";
 
 export default function ContactInfoScreen({
   navigation,
@@ -14,21 +16,34 @@ export default function ContactInfoScreen({
   nokNumber,
   onUpdate,
 }) {
+  const [error, setError] = useState({ name: "", number: "" });
+
+  const next = () => {
+    const { valid, errorMessages } = contactInfoValidator({
+      name: nokName,
+      number: nokNumber,
+    });
+    setError(errorMessages);
+    if (valid) navigation.navigate("review");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={commonStyles.title}>Emergency Contact</Text>
-      <TextInput
+      <CustomInput
         placeholder="Name of next-of-kin"
-        style={commonStyles.textInput}
         value={nokName}
-        onChangeText={(value) => onUpdate("nokName", value)}
+        onChange={(value) => onUpdate("nokName", value)}
+        errorMessage={error.name}
+        styleProps={{ marginTop: 10 }}
       />
-      <TextInput
+      <CustomInput
         placeholder="Phone Number"
-        style={commonStyles.textInput}
-        keyboardType="number-pad"
         value={nokNumber}
-        onChangeText={(value) => onUpdate("nokNumber", value)}
+        onChange={(value) => onUpdate("nokNumber", value)}
+        keyboardType="number-pad"
+        errorMessage={error.number}
+        styleProps={{ marginTop: 10 }}
       />
       <View style={commonStyles.buttonRow}>
         <TouchableOpacity
@@ -37,10 +52,7 @@ export default function ContactInfoScreen({
         >
           <Text style={commonStyles.buttonText}>Back</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={commonStyles.button}
-          onPress={() => navigation.navigate("review")}
-        >
+        <TouchableOpacity style={commonStyles.button} onPress={next}>
           <Text style={commonStyles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>

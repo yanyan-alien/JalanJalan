@@ -33,6 +33,20 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     paddingTop: 20,
   },
+  errorMessage: {
+    color: "#B00020",
+    paddingLeft: 4,
+  },
+  errorContainer: {
+    flex: 1,
+    flexDirection: "row",
+    paddingBottom: 5,
+    paddingLeft: 20,
+    alignItems: "center",
+  },
+  textInput__error: {
+    borderColor: "#B00020",
+  },
 });
 
 export default styles;

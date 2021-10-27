@@ -3,13 +3,14 @@ import {
   View,
   ScrollView,
   Text,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import commonStyles from "./commonStyles";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import moment from "moment";
+import CustomInput from "./Components/CustomInput";
+import CustomSelect from "./Components/CustomSelect";
+import CustomDate from "./Components/CustomDate";
+import { basicInfoValidator } from "./InputValidator";
 
 export default function BasicInfoScreen({
   navigation,
@@ -21,75 +22,83 @@ export default function BasicInfoScreen({
   addressLine2,
   onUpdate,
 }) {
-  const [date, setDate] = useState(birthday ? birthday : new Date());
-  const [show, setShow] = useState(false);
-  const [dateChanged, setDateChanged] = useState(birthday); // Checking for null
+  const [error, setErrors] = useState({
+    // Error messages for each key
+    name: "",
+    postalCode: "",
+    addressLine1: "",
+    addressLine2: "",
+    birthday: "",
+    gender: "",
+  });
 
-  const onDateChange = (e, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-    setDateChanged(true); // only needs to be set once
-    onUpdate("birthday", currentDate);
+  const next = () => {
+    const { valid, errorMessages } = basicInfoValidator({
+      name,
+      postalCode,
+      addressLine1,
+      addressLine2,
+      gender,
+      birthday,
+    });
+
+    setErrors(errorMessages);
+    if (valid) navigation.navigate("health");
   };
 
   return (
     <ScrollView style={styles.container}>
       <Text style={commonStyles.title}>Basic Info</Text>
-      <TextInput
+      <CustomInput
+        errorMessage={error.name}
         placeholder="Name"
-        style={commonStyles.textInput}
-        onChangeText={(name) => onUpdate("name", name)}
         value={name}
+        onChange={(name) => onUpdate("name", name)}
+        autoCapitalize="words"
       />
       <View style={styles.doubleInputContainer}>
-        <TextInput
-          placeholder="Gender"
-          style={commonStyles.textInput}
-          onChangeText={(value) => onUpdate("gender", value)}
+        <CustomSelect
+          errorMessage={error.gender}
           value={gender}
-        />
-        <Text
-          style={[
-            commonStyles.textInput,
-            styles.dateSelect,
-            dateChanged && styles.date,
+          onChange={(val) => onUpdate("gender", val)}
+          placeholder="Gender"
+          options={[
+            { label: "Male", value: "male" },
+            { label: "Female", value: "female" },
+            { label: "Others", value: "others" },
           ]}
-          onPress={() => setShow(true)}
-        >
-          {dateChanged ? moment(date).format("DD MMM YYYY") : "Birthday"}
-        </Text>
+        />
+        <CustomDate
+          errorMessage={error.birthday}
+          placeholder="Birthday"
+          onChange={(currentDate) => onUpdate("birthday", currentDate)}
+          value={birthday}
+        />
       </View>
-      <TextInput
+      <CustomInput
+        errorMessage={error.postalCode}
         placeholder="Postal Code"
-        style={commonStyles.textInput}
-        onChangeText={(value) => onUpdate("postalCode", value)}
+        onChange={(value) => onUpdate("postalCode", value)}
         keyboardType="numeric"
         value={postalCode}
       />
-      <TextInput
+      <CustomInput
+        errorMessage={error.addressLine1}
         placeholder="Block/Street Name"
-        style={commonStyles.textInput}
-        onChangeText={(value) => onUpdate("addressLine1", value)}
+        onChange={(value) => onUpdate("addressLine1", value)}
         value={addressLine1}
       />
-      <TextInput
+      <CustomInput
+        errorMessage={error.addressLine2}
         placeholder="Level/Unit Number"
-        style={commonStyles.textInput}
-        onChangeText={(value) => onUpdate("addressLine2", value)}
+        onChange={(value) => onUpdate("addressLine2", value)}
         value={addressLine2}
       />
       <View style={commonStyles.buttonRow}>
-        <TouchableOpacity
-          style={commonStyles.button}
-          onPress={() => navigation.navigate("health")}
-        >
+        <TouchableOpacity style={commonStyles.button} onPress={next}>
           <Text style={commonStyles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
-      {show && (
-        <DateTimePicker value={date} mode="date" onChange={onDateChange} />
-      )}
     </ScrollView>
   );
 }
@@ -104,14 +113,7 @@ const styles = StyleSheet.create({
   doubleInputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "flex-end",
     flex: 1,
-  },
-  dateSelect: {
-    flex: 1,
-    marginLeft: 10,
-    color: "#8b8b8b", // TODO: fix color if necessary
-  },
-  date: {
-    color: "#000",
   },
 });

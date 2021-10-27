@@ -19,6 +19,8 @@ const initialState = {
   bloodType: "",
   nokName: "",
   nokNumber: "",
+  medications: [""],
+  conditions: [""],
 };
 
 function reducer(state, action) {
@@ -38,10 +40,24 @@ export default function SetupNavigator(props) {
   useEffect(() => {
     async function fetchFromStorage() {
       let stateArr = await AsyncStorage.multiGet(Object.keys(formState));
-      stateArr = stateArr.map(([key, value]) => [
-        key,
-        value == null && key != "birthday" ? "" : value,
-      ]); // Default to empty string
+      stateArr = stateArr.map(([key, value]) => {
+        switch (key) {
+          case "birthday":
+            if (value) value = new Date(value);
+            break;
+          case "medications":
+            if (!value) value = [""];
+            else value = JSON.parse(value);
+            break;
+          case "conditions":
+            if (!value) value = [""];
+            else value = JSON.parse(value);
+            break;
+          default:
+            if (!value) value = "";
+        }
+        return [key, value];
+      }); // Default to empty string
       dispatch({ type: "reset", state: Object.fromEntries(stateArr) });
     }
     fetchFromStorage();
@@ -77,6 +93,8 @@ export default function SetupNavigator(props) {
           <HealthInfoScreen
             {...props}
             bloodType={formState.bloodType}
+            medications={formState.medications}
+            conditions={formState.conditions}
             onUpdate={onUpdate}
           />
         )}

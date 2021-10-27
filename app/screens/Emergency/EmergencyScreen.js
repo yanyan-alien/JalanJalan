@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { 
   Text,
   Image,
@@ -8,33 +8,51 @@ import {
   Modal,
  } from "react-native";
 import { useState } from "react";
+import {Linking} from 'react-native'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function EmergencyScreen({ navigation }) {
+
+export default function EmergencyScreen({ navigation,async }) {
   const police = require("../../assets/police.png");
   const ambulance = require("../../assets/ambulance.png");
   const nextofkin = require("../../assets/man.png");
   const pictures = {police, ambulance, nextofkin};
-  const [pic, setPic] = useState(pictures.police)
+  const [pic, setPic] = useState(pictures.police);
+  const [number, setNumber] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [text, setText] = useState(text);
+  const [nokData, setNokData] = useState({  nokName: '', nokNumber: '' });
+
+  // Fetch NokName and contact from storage
+  useEffect(() => {
+    async function fetchFromStorage() {
+      let stateArr = await AsyncStorage.multiGet(["nokName", "nokNumber"]);
+      stateArr = stateArr.map(([key, value]) => [
+        key,
+        value == null ? "" : value,
+      ]); // Default to empty string
+      setNokData(Object.fromEntries(stateArr))
+    }
+    fetchFromStorage();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text> Click on the button you want to call</Text>
         <View style={styles.parent}>
           <TouchableOpacity style={styles.policeButton}
-          onPress={() => setModalVisible(!modalVisible) || setText("Police") || setPic(pictures.police)}  
+          onPress={() => setModalVisible(!modalVisible) || setText("Police") || setPic(pictures.police) || setNumber('tel:999')}  
           >
-            
             <Image source={police}/>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.ambulanceButton}
-            onPress={() => setModalVisible(!modalVisible) || setText("Ambulance") || setPic(pictures.ambulance)}  
+            onPress={() => setModalVisible(!modalVisible) || setText("Ambulance") || setPic(pictures.ambulance) || setNumber('tel:995')}  
           >
             <Image source={ambulance}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.manButton}
-            onPress={() => setModalVisible(!modalVisible) || setText("NOK Name") || setPic(pictures.nextofkin)}  
+          <TouchableOpacity style={styles.NOKButton}
+            onPress={() => setModalVisible(!modalVisible) || setText(nokData.nokName) || setPic(pictures.nextofkin) || setNumber('tel: ' + nokData.nokNumber)} 
           >
             <Image source={nextofkin}/>
           </TouchableOpacity>
@@ -56,7 +74,7 @@ export default function EmergencyScreen({ navigation }) {
               <View style={styles.parentButtons}>
                 <TouchableOpacity
               style={[styles.buttonGreen]}
-              onPress={() => setModalVisible(!modalVisible) }
+              onPress={() => setModalVisible(!modalVisible) || Linking.openURL(number)}
                 >
                 <Text style={styles.textStyle}>Yes</Text>
                 </TouchableOpacity>
@@ -95,7 +113,7 @@ policeButton: {
 ambulanceButton: {
   padding:20,
 },
-manButton: {
+NOKButton: {
   padding:20,
 
 },
