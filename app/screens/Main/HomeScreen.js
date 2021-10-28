@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Modal} from "react-native";
 import * as SMS from 'expo-sms';
+import * as Location from 'expo-location';
 import {NetInfo, useNetInfo, state} from "@react-native-community/netinfo";
 
 export default function HomeScreen({ navigation }) {
@@ -10,10 +11,23 @@ export default function HomeScreen({ navigation }) {
   const handleConnectionChange = (state) => {
     setConnectionStatus(state.isConnected);
   };
+  const [location, setLocation] = useState({latitude: 1.3483, longitude:103.6831});
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [postal, setPostal] = useState(111111);
+
+  fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.latitude + ',' +location.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                let postal = responseJson.results[1].address_components[5].long_name;
+                //console.log(postal);
+                setPostal(postal);
+              } )
+  console.log(postal);
+
   async function handleSend() {
-    const result = await SMS.sendSMSAsync('96105906', 'I want taxi pls!')
-    console.log('results', result)
+    const result = await SMS.sendSMSAsync('71222', 'BOOK ' + postal +' Pick Up/Drop off Point')
   }
+
   return (
     <View style={styles.centeredView}>   
       <View style={styles.container}>
@@ -50,15 +64,15 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.parent}>
               <TouchableOpacity
               style={[styles.buttonGreen]}
-              onPress={() => setModalVisible(!modalVisible) ||navigation.navigate("Taxi")|| handleSend() }
+              onPress={() => setModalVisible(!modalVisible) ||navigation.navigate("Taxi") || handleSend() }
               >
-              <Text style={styles.textStyle}>Yes</Text>
+              <Text style={styles.modalButtonText}>Yes</Text>
               </TouchableOpacity>
               <TouchableOpacity
               style={[styles.buttonRed]}
               onPress={() => setModalVisible(!modalVisible)}
               >
-              <Text style={styles.textStyle}>Cancel</Text>
+              <Text style={styles.modalButtonText}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -206,5 +220,9 @@ const styles = StyleSheet.create({
   textStyle: {
     textAlign: "center",
     fontSize: 25,
-  }
+  },
+  modalButtonText: {
+    fontSize:15,
+    color: "white"
+  },
 });

@@ -38,7 +38,7 @@ export default function EmergencyScreen({ navigation,async }) {
 
   return (
     <View style={styles.container}>
-      <Text> Click on the button you want to call</Text>
+      <Text style={styles.infoText}> Click on the button you want to call</Text>
         <View style={styles.parent}>
           <TouchableOpacity style={styles.policeButton}
           onPress={() => setModalVisible(!modalVisible) || setText("Police") || setPic(pictures.police) || setNumber('tel:999')}  
@@ -186,6 +186,11 @@ textStyle: {
   textAlign: "center"
 },
 modalText: {
+  marginBottom: 15,
+  textAlign: "center",
+  fontSize: 20,
+},
+infoText: {
   marginBottom: 15,
   textAlign: "center",
   fontSize: 20,
