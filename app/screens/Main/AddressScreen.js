@@ -3,9 +3,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { BasicInfoScreen } from "../Setup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const name = "Tan Ah Kow";
-const address = ["123 Chua Chu Kang Road", "#04-05", "S678910"];
-
 export default function AddressScreen({navigation}) {
    const [nokData, setNokData] = useState({  nokName: '', nokNumber: '' });
    const [addressData, setAddressData] = useState({addressLine1:"", addressLine2:"", postalCode:""})
@@ -37,16 +34,16 @@ export default function AddressScreen({navigation}) {
         />
       </TouchableOpacity>
 
-      <Text style={{ fontSize: 36, fontWeight: "bold" }}>{nameData.name}</Text>
+      <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize", }}>{nameData.name}</Text>
       <View style={{ paddingVertical: "10%" }}>
-        <Text style={{ fontSize: 36 }}>{addressData.addressLine1}</Text>
-        <Text style={{ fontSize: 36 }}>{addressData.addressLine2}</Text>
+        <Text style={{ fontSize: 36,  textTransform:"capitalize"}}>{addressData.addressLine1}</Text>
+        <Text style={{ fontSize: 36,  textTransform:"capitalize"}}>{addressData.addressLine2}</Text>
         <Text style={{ fontSize: 36 }}>{addressData.postalCode}</Text>
       </View>
       <Text style={{ fontSize: 30 }}>
         If I require assistance, call: {"\n"}
         Next-of-kin:{" "}
-        <Text style={{ fontWeight: "bold" }}>{nokData.nokName}</Text>
+        <Text style={{ fontWeight: "bold" , textTransform:"capitalize"}}>{nokData.nokName}</Text>
         {"\n"}
         Contact: <Text style={{ fontWeight: "bold" }}>{nokData.nokNumber}</Text>
         {"\n"}

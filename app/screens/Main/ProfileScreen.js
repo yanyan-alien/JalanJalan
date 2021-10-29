@@ -1,13 +1,42 @@
-import React from "react";
-import { StyleSheet, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, ScrollView, TouchableOpacity, Image, FlatList, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const name = "Tan Ah Kow";
-const nextOfKinInfo = ["Tan Ah Beng", "+65 9123 45678"];
-const conditions = ["High Blood Pressure", "Diabetes"];
-const medication = ["Humulin", "Bumex"];
-const bloodType = "B+";
 
 export default function ProfileScreen({navigation}) {
+  const [nokData, setNokData] = useState({  nokName: '', nokNumber: '' });
+  const [nameData, setNameData] = useState({name:""});
+  const [bloodData, setbloodData] = useState({bloodType:""})
+  const [medicatonData, setMedicationData] = useState([])
+  const [conditionData, setConditionData] = useState([])
+  const [birthdayData, setBirthdayData] = useState("");
+
+  useEffect(() => {
+    async function fetchFromStorage() {
+      let stateArr = await AsyncStorage.multiGet(["nokName", "nokNumber", "name", "bloodType"]);
+      stateArr = stateArr.map(([key, value]) => [
+        key,
+        value == null ? "" : value,
+      ]); // Default to empty string
+      setNokData(Object.fromEntries(stateArr));
+      setNameData(Object.fromEntries(stateArr));
+      setbloodData(Object.fromEntries(stateArr));
+      let med = await AsyncStorage.getItem("medications");
+      let con = await AsyncStorage.getItem("conditions");
+      let bir = await AsyncStorage.getItem("birthday");
+      let con_test = con.slice(1, -1).replace(/"/g,'').split(",");
+      let med_test = med.slice(1, -1).replace(/"/g,'').split(",");
+      // console.log(med_test);
+      // console.log(con_test);
+      let bir_test = Number(bir.slice(0,4));
+      console.log(bir_test);
+      setBirthdayData(bir_test)
+      setMedicationData(med_test);
+      setConditionData(con_test);
+    }
+    fetchFromStorage();
+  }, []);
+
   return (
     <ScrollView style={{ flex: 1, padding: "5%" , backgroundColor:"white"}}>
 
@@ -21,34 +50,39 @@ export default function ProfileScreen({navigation}) {
         />
       </TouchableOpacity>
 
-      <Text style={{ fontSize: 36, fontWeight: "bold" }}>
-        {name}
+      <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize" }}>
+        {nameData.name}
         {"\n"}
       </Text>
       <Text style={styles.normalText}>
-        Age: 72{"\n"}
-        Blood Type: {bloodType}
-        {"\n"}
+        Age: {2021-birthdayData}{"\n"}
+        Blood Type: {bloodData.bloodType}{"\n"}
       </Text>
       <Text style={styles.normalText}>
-        Medical conditions:{"\n"}
-        {"\u2022"} {conditions[0]}
-        {"\n"}
-        {"\u2022"} {conditions[1]}
-        {"\n"}
+        Medical conditions:
       </Text>
-      <Text style={styles.normalText}>
-        Current Medication:{"\n"}
-        {"\u2022"} {medication[0]}
-        {"\n"}
-        {"\u2022"} {medication[1]}
-        {"\n"}
-      </Text>
+      <View>
+          <FlatList 
+            style={{ marginBottom:"5%"}}
+            data={conditionData}
+            renderItem={({item}) => <Text style={[styles.normalText, {textTransform:"capitalize"}]}>{"\u2022"} {item}</Text>}
+          />
+      </View>
+      
+        <Text style={styles.normalText}>Current Medication:</Text>
+        <View>
+          <FlatList 
+            style={{ marginBottom:"5%"}}
+            data={medicatonData}
+            renderItem={({item}) => <Text style={[styles.normalText, {textTransform:"capitalize"}]}>{"\u2022"} {item}</Text>}
+          />
+        </View>
+
       <Text style={styles.normalText}>
         Next-of-kin:{" "}
-        <Text style={{ fontWeight: "bold" }}>{nextOfKinInfo[0]}</Text>
+        <Text style={{ fontWeight: "bold", textTransform:"capitalize" }}>{nokData.nokName}</Text>
         {"\n"}
-        Contact: <Text style={{ fontWeight: "bold" }}>{nextOfKinInfo[1]}</Text>
+        Contact: <Text style={{ fontWeight: "bold" }}>{nokData.nokNumber}</Text>
         {"\n"}
       </Text>
     </ScrollView>

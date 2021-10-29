@@ -38,6 +38,7 @@ export default function Health_MapScreen({ navigation, route }){
       let { status } = await Location.requestForegroundPermissionsAsync();
       //console.log(status);
       if (status !== 'granted') {
+        navigation.navigate("HealthError");
         setErrorMsg('Permission to access location was denied');
         return;
       }

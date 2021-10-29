@@ -32,6 +32,7 @@ export default function Food_MapScreen({ navigation , route}) {
        let { status } = await Location.requestForegroundPermissionsAsync();
        //console.log(status);
        if (status !== 'granted') {
+         navigation.navigate("EnableError")
          setErrorMsg('Permission to access location was denied');
          return;
        }
