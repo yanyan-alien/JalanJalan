@@ -1,6 +1,6 @@
 import React from "react";
 import commonStyles from "../commonStyles";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function CustomInput({
@@ -9,6 +9,8 @@ export default function CustomInput({
   value,
   onChange,
   styleProps = {},
+  trailingIcon = false,
+  trailingIconAction = null,
   ...additionalProps
 }) {
   const invalid = errorMessage.length > 0;
@@ -21,17 +23,36 @@ export default function CustomInput({
           <Text style={commonStyles.errorMessage}>{errorMessage}</Text>
         </View>
       )}
-      <TextInput
-        placeholder={placeholder}
-        style={[
-          commonStyles.textInput,
-          invalid && commonStyles.textInput__error,
-          styleProps,
-        ]}
-        value={value}
-        onChangeText={onChange}
-        {...additionalProps}
-      />
+      <View>
+        <TextInput
+          placeholder={placeholder}
+          style={[
+            commonStyles.textInput,
+            invalid && commonStyles.textInput__error,
+            styleProps,
+          ]}
+          value={value}
+          onChangeText={onChange}
+          {...additionalProps}
+        />
+        {trailingIcon && (
+          <MaterialIcons
+            name="remove-circle-outline"
+            size={24}
+            color="black"
+            style={styles.deleteIcon}
+            onPress={trailingIconAction}
+          />
+        )}
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  deleteIcon: {
+    position: "absolute",
+    right: 15,
+    top: 15,
+  },
+});

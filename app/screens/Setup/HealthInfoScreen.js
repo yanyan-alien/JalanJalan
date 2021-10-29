@@ -32,6 +32,11 @@ export default function HealthInfoScreen({
     return newArr;
   };
 
+  const deleteRow = (arr, i) => {
+    const newArr = arr.slice();
+    newArr.splice(i, 1);
+    return newArr;
+  } 
   // For adding input elements
   const addNewCondition = () => {
     if (conditions[conditions.length - 1] == "") return;
@@ -106,6 +111,8 @@ export default function HealthInfoScreen({
                 onChange={(val) =>
                   onUpdate("conditions", modifyArr(arr, i, val))
                 }
+                trailingIcon={true}
+                trailingIconAction={() => onUpdate("conditions", deleteRow(arr, i))}
               />
             ))}
           </View>
@@ -133,6 +140,8 @@ export default function HealthInfoScreen({
                 onChange={(val) =>
                   onUpdate("medications", modifyArr(arr, i, val))
                 }
+                trailingIcon={true}
+                trailingIconAction={() => onUpdate("medications", deleteRow(arr, i))}
               />
             ))}
           </View>
