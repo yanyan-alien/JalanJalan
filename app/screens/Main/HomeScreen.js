@@ -24,6 +24,11 @@ export default function HomeScreen({ navigation }) {
               } )
   console.log(postal);
 
+   function handleTaxi() {
+    setTimeout(() => {
+      navigation.navigate("Taxi");
+      }, 5000);
+    }
   async function handleSend() {
     const result = await SMS.sendSMSAsync('71222', 'BOOK ' + postal +' Pick Up/Drop off Point')
   }
@@ -64,7 +69,7 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.parent}>
               <TouchableOpacity
               style={[styles.buttonGreen]}
-              onPress={() => setModalVisible(!modalVisible) ||navigation.navigate("Taxi") || handleSend() }
+              onPress={() => setModalVisible(!modalVisible) ||handleTaxi() || handleSend() }
               >
               <Text style={styles.modalButtonText}>Yes</Text>
               </TouchableOpacity>

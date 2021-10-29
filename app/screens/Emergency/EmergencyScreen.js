@@ -147,8 +147,8 @@ centeredView: {
   marginTop: 22
 },
 modalView: {
-  width: 250,
-  height: 200,
+  // width: 250,
+  // height: 200,
   margin: 20,
   backgroundColor: "white",
   borderRadius: 20,
@@ -195,8 +195,8 @@ infoText: {
   textAlign: "center",
   fontSize: 20,
 },
-modalPic: {
-  height: 50,
-  width: 50,
-}
+// modalPic: {
+//   height: 50,
+//   width: 50,
+// }
 });
