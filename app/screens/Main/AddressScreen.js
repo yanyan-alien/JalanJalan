@@ -23,24 +23,24 @@ export default function AddressScreen({navigation}) {
   }, []);
   return (
     <View style={{ flex: 1, padding: "5%" , backgroundColor:"white"}}>
-
-      <TouchableOpacity
-         onPress={() => navigation.navigate('SETUP', { screen: 'basic' }) } //to fix
-         style={{flexDirection:"row", justifyContent:"flex-end"}}
-      >
-        <Image
-          source={require("../../assets/edit_button.png")}
-          style={styles.editIcon}
-        />
-      </TouchableOpacity>
-
-      <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize", }}>{nameData.name}</Text>
-      <View style={{ paddingVertical: "10%" }}>
+      <View style={{flexDirection:"row", paddingBottom:"5%", justifyContent:"space-between"}}>
+        <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize", }}>{nameData.name}</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('SETUP', { screen: 'basic' }) } //to fix
+          style={{flexDirection:"row", justifyContent:"flex-end"}}
+        >
+          <Image
+            source={require("../../assets/edit_button.png")}
+            style={styles.editIcon}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={{ paddingBottom: "10%" }}>
         <Text style={{ fontSize: 36,  textTransform:"capitalize"}}>{addressData.addressLine1}</Text>
         <Text style={{ fontSize: 36,  textTransform:"capitalize"}}>{addressData.addressLine2}</Text>
         <Text style={{ fontSize: 36 }}>{addressData.postalCode}</Text>
       </View>
-      <Text style={{ fontSize: 30 }}>
+      <Text style={{ fontSize: 36 }}>
         If I require assistance, call: {"\n"}
         Next-of-kin:{" "}
         <Text style={{ fontWeight: "bold" , textTransform:"capitalize"}}>{nokData.nokName}</Text>

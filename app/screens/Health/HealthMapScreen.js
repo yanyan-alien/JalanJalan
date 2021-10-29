@@ -212,6 +212,7 @@ export default function Health_MapScreen({ navigation, route }){
           mode= {"WALKING"}
           strokeWidth={4}
           strokeColor = {"red"}
+          lineDashPattern={[0]}
           />
           <MapView.Marker 
           coordinate={location}

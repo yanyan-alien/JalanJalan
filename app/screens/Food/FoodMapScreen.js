@@ -147,6 +147,7 @@ export default function Food_MapScreen({ navigation , route}) {
           mode= {"WALKING"}
           strokeWidth={4}
           strokeColor = {"red"}
+          lineDashPattern={[0]}
           />
           <MapView.Marker 
           coordinate={location}
