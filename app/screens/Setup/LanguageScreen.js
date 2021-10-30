@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import commonStyles from "./commonStyles";
 
 export default function LanguageScreen({ navigation }) {
   return (
-    <View>
+    <View style={commonStyles.wrapper}>
       <View style={styles.languageContainer}>
         <Text
           style={styles.languageLabel}

@@ -54,7 +54,7 @@ export default function HealthInfoScreen({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[commonStyles.wrapper, styles.container]}>
       <Text style={commonStyles.title}>Health Info</Text>
       <ScrollView>
         <View>

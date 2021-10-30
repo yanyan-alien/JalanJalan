@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import ProgressBar from "./ProgressBar";
 import SetupNavigator from "./SetupNavigator";
+import commonStyles from "./commonStyles";
 
 const setupRoutes = ["language", "basic", "health", "emergency", "review"];
 
@@ -11,7 +12,7 @@ export default function SetupScreen() {
   const [currentStep, setCurrentStep] = useState(0);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[commonStyles.wrapper, styles.container]}>
       <View style={styles.globeContainer}>
         <Feather name="globe" size={25} color="#001A72" />
       </View>

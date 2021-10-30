@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: "#fff",
+    flex: 1
+  },
   title: {
     fontSize: 36,
     fontWeight: "bold",

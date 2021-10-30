@@ -26,7 +26,7 @@ export default function AddressScreen({navigation}) {
       <View style={{flexDirection:"row", paddingBottom:"5%", justifyContent:"space-between"}}>
         <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize", }}>{nameData.name}</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate('SETUP', { screen: 'basic' }) } //to fix
+          onPress={() => navigation.navigate('SETUP')} 
           style={{flexDirection:"row", justifyContent:"flex-end"}}
         >
           <Image

@@ -47,7 +47,7 @@ export default function BasicInfoScreen({
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[commonStyles.wrapper, styles.container]}>
       <Text style={commonStyles.title}>Basic Info</Text>
       <CustomInput
         errorMessage={error.name}

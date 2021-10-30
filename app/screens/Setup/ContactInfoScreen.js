@@ -28,7 +28,7 @@ export default function ContactInfoScreen({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[commonStyles.wrapper, styles.container]}>
       <Text style={commonStyles.title}>Emergency Contact</Text>
       <CustomInput
         placeholder="Name of next-of-kin"
