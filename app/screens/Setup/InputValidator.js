@@ -1,3 +1,4 @@
+// Validates inputs in basic info stage, rules are different for each type of input
 function basicInfoValidator({
   name,
   postalCode,
@@ -65,6 +66,8 @@ function basicInfoValidator({
   };
 }
 
+
+// Validates inputs in contact info stage, rules are different for each type of input
 function contactInfoValidator({ name, number }) {
   const error = {
     name: "",

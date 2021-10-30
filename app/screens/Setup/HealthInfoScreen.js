@@ -26,18 +26,23 @@ export default function HealthInfoScreen({
   const [invalid, setInvalid] = useState(false);
 
   // For adding into state with immutability
+  // The function updates array element at index i with value
+  // arr[i] = value
   const modifyArr = (arr, i, value) => {
     const newArr = arr.slice(); // shallow copy
     newArr[i] = value;
     return newArr;
   };
 
+  // Removes index i from array
+  // arr.pop(i)
   const deleteRow = (arr, i) => {
     const newArr = arr.slice();
     newArr.splice(i, 1);
     return newArr;
   } 
-  // For adding input elements
+
+  // For adding input elements, creates a new input field if last field is filled
   const addNewCondition = () => {
     if (conditions[conditions.length - 1] == "") return;
     onUpdate("conditions", conditions.concat(""));

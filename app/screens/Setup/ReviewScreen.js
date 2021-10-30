@@ -25,6 +25,8 @@ const labels = {
   conditions: "Medical Conditions",
 };
 
+// Stores user info from setup into local storage for persistance
+// The format used is [key]: value 
 const storeUserData = async (form) => {
   const formEntries = Object.entries({
     ...form,
@@ -43,6 +45,8 @@ const storeUserData = async (form) => {
   }
 };
 export default function ReviewScreen({ navigation, form }) {
+  // Saves user data and routes user to home page of application
+  // Reset ensures that user is not able to use back button to navigation back to setup 
   const next = () => {
     storeUserData(form);
     navigation.reset({

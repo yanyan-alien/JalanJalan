@@ -18,6 +18,7 @@ export default function ContactInfoScreen({
 }) {
   const [error, setError] = useState({ name: "", number: "" });
 
+  // Routes user to next stage if all inputs are valid
   const next = () => {
     const { valid, errorMessages } = contactInfoValidator({
       name: nokName,

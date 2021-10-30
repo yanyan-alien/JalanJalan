@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
+// Initial state can help to define the data type of state keys
 const initialState = {
   name: "",
   gender: "",
@@ -23,6 +24,7 @@ const initialState = {
   conditions: [""],
 };
 
+// Reducer for state management, ensures mutations are done safely
 function reducer(state, action) {
   switch (action.type) {
     case "update":
@@ -38,6 +40,7 @@ export default function SetupNavigator(props) {
   const [formState, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    // Fetch from AsyncStorage which is stored locally and persists
     async function fetchFromStorage() {
       let stateArr = await AsyncStorage.multiGet(Object.keys(formState));
       stateArr = stateArr.map(([key, value]) => {

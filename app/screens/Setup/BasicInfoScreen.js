@@ -32,6 +32,7 @@ export default function BasicInfoScreen({
     gender: "",
   });
 
+  // Routes the user to the next stage of setup if inputs are valid
   const next = () => {
     const { valid, errorMessages } = basicInfoValidator({
       name,
