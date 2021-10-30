@@ -11,15 +11,28 @@ export default function HomeScreen({ navigation }) {
   const handleConnectionChange = (state) => {
     setConnectionStatus(state.isConnected);
   };
-  const [location, setLocation] = useState({latitude: 1.3483, longitude:103.6831});
+  const [location, setLocation] = useState({latitude: 0, longitude: 0});
   const [errorMsg, setErrorMsg] = useState(null);
   const [postal, setPostal] = useState(111111);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        navigation.navigate("UnavailableError");
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
+      setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
+    
+    })();
+  }, []);
 
   fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.latitude + ',' +location.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY')
             .then((response) => response.json())
             .then((responseJson) => {
-                let postal = responseJson.results[1].address_components[5].long_name;
-                //console.log(postal);
+                let postal = responseJson.results[0].address_components[5].long_name;
                 setPostal(postal);
               } )
   console.log(postal);

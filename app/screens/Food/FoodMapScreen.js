@@ -164,7 +164,7 @@ export default function Food_MapScreen({ navigation , route}) {
           <MapView.Marker 
           coordinate={location}
           title ={"Start"}
-          color = {"blue"}
+          inColor = {"green"}
            />
           <MapView.Marker 
           coordinate={destination}

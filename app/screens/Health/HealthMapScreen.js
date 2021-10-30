@@ -22,7 +22,7 @@ export default function Health_MapScreen({ navigation, route }){
     choice = route.params.choice;
   }
 
-
+  const nextofkin = require("../../assets/man.png");
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [postal, setPostal] = useState("loading");
@@ -169,7 +169,7 @@ export default function Health_MapScreen({ navigation, route }){
           <MapView.Marker 
           coordinate={location}
           title ={"Start"}
-          color = {"blue"}
+          pinColor = {"green"}
            />
           <MapView.Marker 
           coordinate={destination}
