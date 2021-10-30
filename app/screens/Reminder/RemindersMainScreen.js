@@ -1,25 +1,37 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from "react-native";
+import * as SQLite from "expo-sqlite";
 
-export default function RemindersMainScreen({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Today:</Text>
-      <View style={styles.reminderListContainer}>
-        <Text style={styles.reminderText}>
-          {"9am\n- Bumex\n12pm\n- Humulin\n"}
-        </Text>
+export default class RemindersMainScreen extends Component {
+  componentDidMount = () => {
+    this.props.onLoadMain();
+  };
+
+  render() {
+    //this.props.onLoadMain();
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>Today:</Text>
+        <ScrollView style={styles.reminderListContainer}>
+          <Text style={styles.reminderText}>{this.props.tempResult}</Text>
+        </ScrollView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.remindersButton}
+            onPress={() => this.props.navigation.navigate("ReminderEdit")}
+          >
+            <Text style={styles.buttonText}>Edit Reminders</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.remindersButton}
-          onPress={() => navigation.navigate("ReminderAll")}
-        >
-          <Text style={styles.buttonText}>All Reminders</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

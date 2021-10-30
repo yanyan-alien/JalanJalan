@@ -23,9 +23,7 @@ export default function HealthScreen({ navigation }) {
           alignItems: "center",
         }}
       >
-        <Text style={{ fontSize: 30, marginTop: "10%" }}>
-          1. MOH Clinic
-        </Text>
+        <Text style={{ fontSize: 30, marginTop: "10%" }}>1. MOH Clinic</Text>
       </View>
 
       <View style={styles.feature_box}>
@@ -36,8 +34,7 @@ export default function HealthScreen({ navigation }) {
             width: 350,
             borderRadius: 24,
           }}
-          onPress={() => navigation.navigate('HealthMap',  {choice : 1})
-        }
+          onPress={() => navigation.navigate("HealthMap", { choice: 1 })}
         >
           <Text style={{ textAlign: "center", fontSize: 30 }}>Directions</Text>
         </TouchableOpacity>
@@ -50,9 +47,7 @@ export default function HealthScreen({ navigation }) {
           alignItems: "center",
         }}
       >
-        <Text style={{ fontSize: 30, marginTop: "10%" }}>
-          2. Hospital
-        </Text>
+        <Text style={{ fontSize: 30, marginTop: "10%" }}>2. Hospital</Text>
       </View>
 
       <View
@@ -70,7 +65,7 @@ export default function HealthScreen({ navigation }) {
               width: 350,
               borderRadius: 24,
             }}
-            onPress={() => navigation.navigate("HealthMap", {choice : 3})}
+            onPress={() => navigation.navigate("HealthMap", { choice: 3 })}
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>
               Directions
@@ -95,7 +90,7 @@ export default function HealthScreen({ navigation }) {
               width: 350,
               borderRadius: 24,
             }}
-            onPress={() => navigation.navigate("ReminderMain")}
+            onPress={() => navigation.navigate("ReminderHandler")}
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>REMINDERS</Text>
           </TouchableOpacity>
