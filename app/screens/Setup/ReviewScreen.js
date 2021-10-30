@@ -31,6 +31,7 @@ const storeUserData = async (form) => {
     birthday: form.birthday ? form.birthday.toISOString() : "",
     medications: JSON.stringify(form.medications),
     conditions: JSON.stringify(form.conditions),
+    setupDone: 'true'
   });
 
   try {
@@ -42,8 +43,16 @@ const storeUserData = async (form) => {
   }
 };
 export default function ReviewScreen({ navigation, form }) {
+  const next = () => {
+    storeUserData(form);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "TabNavigation" }],
+    });
+  };
+
   return (
-    <View style={styles.container}>
+    <View style={[commonStyles.wrapper, styles.container]}>
       <Text style={commonStyles.title}>Review</Text>
       <ScrollView style={styles.contentWrapper}>
         {Object.entries(labels).map(([key, label], i) => (
@@ -67,10 +76,7 @@ export default function ReviewScreen({ navigation, form }) {
           >
             <Text style={commonStyles.buttonText}>Back</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={commonStyles.button}
-            onPress={() => storeUserData(form)}
-          >
+          <TouchableOpacity style={commonStyles.button} onPress={next}>
             <Text style={commonStyles.buttonText}>Save</Text>
           </TouchableOpacity>
         </View>
