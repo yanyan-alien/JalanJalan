@@ -75,14 +75,6 @@ export default function Health_MapScreen({ navigation, route }){
     })();
   }, []);
 
-  fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.latitude + ',' +location.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                let postal = responseJson.results[1].address_components[5].long_name;
-                //console.log(postal);
-                setPostal(postal);
-              } )
-  console.log(postal);
   
   //latitude: 1.3483, longitude:103.6831 (NTU)
   //latitude: 1.3417, longitude:103.7759 (Beauty world)
@@ -123,7 +115,15 @@ export default function Health_MapScreen({ navigation, route }){
     }
   }
   
-
+  fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + destination.latitude + ',' +destination.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY')
+  .then((response) => response.json())
+  .then((responseJson) => {
+      let postal = responseJson.results[0].formatted_address;
+      //responseJson.results[1].address_components[5].long_name;
+      //console.log(postal);
+      setPostal(postal);
+    } )
+  console.log(postal);
 
   const handleGetDirections = () => {
     const data = {
@@ -196,11 +196,12 @@ export default function Health_MapScreen({ navigation, route }){
       </View>
         <MapView
         style={{ 
+          flex: 11,
           width: Dimensions.get('window').width,
           height: Dimensions.get('window').height - 180}}
           initialRegion ={{
-          latitude:location.latitude,
-          longitude: location.longitude,
+          latitude: destination.latitude,
+          longitude: destination.longitude,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA
         }}
@@ -223,6 +224,11 @@ export default function Health_MapScreen({ navigation, route }){
           title = {"end"}
            />
         </MapView>
+        <View>
+          <Text style={{ textAlign: "center", fontSize: 30 }}>
+            {postal}
+          </Text>
+        </View>
     </View>
   );
 }
