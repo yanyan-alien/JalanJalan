@@ -10,11 +10,6 @@ export default function TaxiScreen({ navigation }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const [postal, setPostal] = useState(111111);
 
-   function handleTaxi() {
-    setTimeout(() => {
-      navigation.navigate("Taxi");
-      }, 8000);
-    }
   async function handleSend() {
     const result = await SMS.sendSMSAsync('71222', 'BOOK ' + postal +' Pick Up/Drop off Point')
   }
@@ -59,7 +54,7 @@ export default function TaxiScreen({ navigation }) {
             <View style={styles.parent}>
               <TouchableOpacity
               style={[styles.buttonGreen]}
-              onPress={() => setModalVisible(!modalVisible) ||handleTaxi() || handleSend() }
+              onPress={() => setModalVisible(!modalVisible) || navigation.navigate("HomeScreen") || handleSend() }
               >
               <Text style={styles.modalButtonText}>Yes</Text>
               </TouchableOpacity>
