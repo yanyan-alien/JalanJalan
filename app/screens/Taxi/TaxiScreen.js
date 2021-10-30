@@ -27,19 +27,17 @@ export default function TaxiScreen({ navigation }) {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-      let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
+      let location = await Location.getCurrentPositionAsync();
       setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
-    
+      let res = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.coords.latitude + ',' + location.coords.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY');
+      res = await res.json();
+      res = res.results[0].address_components;
+      const postalCode = res.find(v => v.types.includes("postal_code"));
+      if (postalCode) {
+        setPostal(postalCode.long_name);
+      }
     })();
   }, []);
-
-  fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.latitude + ',' +location.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                let postal = responseJson.results[0].address_components[5].long_name;
-                setPostal(postal);
-              } )
-  console.log(postal);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
