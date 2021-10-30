@@ -4,6 +4,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LogBox } from 'react-native';
 
 LogBox.ignoreAllLogs();
+
+function listing({i}) {
+  if(conditionData.length==0)
+  return(
+    <FlatList 
+            style={{ marginBottom:"5%"}}
+            data={i}
+            renderItem={({item}) => <Text style={[styles.normalText, {textTransform:"capitalize"}]}>{"\u2022"} {item}</Text>}
+          />
+  )
+}
+
 export default function ProfileScreen({navigation}) {
   const [nokData, setNokData] = useState({  nokName: '', nokNumber: '' });
   const [nameData, setNameData] = useState({name:""});
@@ -27,19 +39,20 @@ export default function ProfileScreen({navigation}) {
       let bir = await AsyncStorage.getItem("birthday");
       let con_test = con.slice(1, -1).replace(/"/g,'').split(",");
       let med_test = med.slice(1, -1).replace(/"/g,'').split(",");
-      // console.log(med_test);
-      // console.log(con_test);
       let bir_test = Number(bir.slice(0,4));
-      console.log(bir_test);
+      console.log(med_test);
+      // console.log(con_test);
+      // console.log(bir_test);
       setBirthdayData(bir_test)
       setMedicationData(med_test);
       setConditionData(con_test);
     }
     fetchFromStorage();
   }, []);
-
+  let age = 2021 - birthdayData;
   return (
     <ScrollView style={{ flex: 1, padding: "5%" , backgroundColor:"white"}}>
+
       <View style={{flexDirection:"row", paddingBottom:"5%", justifyContent:"space-between"}}>
       <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize",}}>
         {nameData.name}
@@ -56,14 +69,14 @@ export default function ProfileScreen({navigation}) {
  
       </View>
       <Text style={styles.normalText}>
-        Age: {2021-birthdayData}{"\n"}
+        Age: {age}{"\n"}
         Blood Type: {bloodData.bloodType}{"\n"}
       </Text>
       <Text style={styles.normalText}>
         Medical conditions:
       </Text>
       <View>
-          <FlatList 
+            <FlatList 
             style={{ marginBottom:"5%"}}
             data={conditionData}
             renderItem={({item}) => <Text style={[styles.normalText, {textTransform:"capitalize"}]}>{"\u2022"} {item}</Text>}

@@ -39,7 +39,11 @@ export default function TabNavigator() {
         options={{
           headerTitleAlign: "center",
           tabBarShowLabel: false,
+          unmountOnBlur: true,
         }}
+      listeners={({ navigation }) => ({
+        blur: () => navigation.setParams({ screen: undefined }),
+      })}
       />
       <Tab.Screen
         name="PROFILE"
@@ -47,7 +51,11 @@ export default function TabNavigator() {
         options={{
           headerTitleAlign: "center",
           tabBarShowLabel: false,
+          unmountOnBlur: true,
         }}
+        listeners={({ navigation }) => ({
+          blur: () => navigation.setParams({ screen: undefined }),
+        })}
       />
       <Tab.Screen 
         name="SETUP"
