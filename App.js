@@ -16,6 +16,8 @@ export default function App() {
 
   useEffect(() => {
     async function fetchFromStorage() {
+      AsyncStorage.clear();
+      return;
       let stateArr = await AsyncStorage.getItem("setupDone");
       setSetupDone(stateArr ? stateArr[1] : false);
     }
