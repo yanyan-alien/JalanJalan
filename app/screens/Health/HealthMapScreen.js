@@ -21,8 +21,6 @@ export default function Health_MapScreen({ navigation, route }){
   {
     choice = route.params.choice;
   }
-
-  const nextofkin = require("../../assets/man.png");
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [postal, setPostal] = useState("loading");
@@ -175,13 +173,13 @@ export default function Health_MapScreen({ navigation, route }){
           coordinate={destination}
           title = {"end"}
            />
-        </MapView> : <Text> Loading </Text>}
+        </MapView> : <Text style = {{flex:11}}> Loading </Text>}
         {location?
         <View>
           <Text style={{ textAlign: "center", fontSize: 30 }}>
             {postal}
           </Text> 
-        </View>: <Text>Loading</Text>}
+        </View>: <Text style={{flex:1}}>Loading</Text>}
     </View>
   );
 }

@@ -75,7 +75,7 @@ export default function Food_MapScreen({ navigation , route}) {
     for (let index = 0; index < supermarkets.features.length; index++) {
         let difference =  Math.abs(location.latitude - supermarkets.features[index].geometry.coordinates[1]) + 
           Math.abs(location.longitude- supermarkets.features[index].geometry.coordinates[0])
-        if (difference>-0.01 && difference<0.01 && difference<difference2)
+        if (difference<0.05 && difference<difference2)
         {
             difference2 = difference;
             destination.latitude = supermarkets.features[index].geometry.coordinates[1];
@@ -170,13 +170,13 @@ export default function Food_MapScreen({ navigation , route}) {
           coordinate={destination}
           title = {"end"}
            />
-        </MapView> : <Text> Loading </Text>}
+        </MapView> : <Text style = {{flex:11}}> Loading </Text>}
         {location?
         <View>
           <Text style={{ textAlign: "center", fontSize: 30 }}>
             {postal}
           </Text> 
-        </View>: <Text>Loading</Text>}
+        </View>: <Text style = {{flex:1}}>Loading</Text>}
     </View>
   );
 }
