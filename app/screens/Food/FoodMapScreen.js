@@ -170,7 +170,7 @@ export default function Food_MapScreen({ navigation , route}) {
           coordinate={destination}
           title = {"end"}
            />
-        </MapView> : <Text style = {{flex:11}}> Loading </Text>}
+        </MapView> : <Text style = {{flex:9,  fontSize:70 ,textAlign: 'center', marginTop: 200,}}> Loading... </Text>}
         {location?
         <View>
           <Text style={{ textAlign: "center", fontSize: 30 }}>
