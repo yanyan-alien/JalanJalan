@@ -15,35 +15,32 @@ export default function Food_MapScreen({ navigation , route}) {
   //latitude: 1.3417, longitude:103.7759 (Beauty world)
   //latitude: 1.3508, longitude:103.8723 (NEX)
 
-   //const {choice} = route.params;
+
    let choice = null;
    if (route.params != undefined)
    {
      choice = route.params.choice;
    }
  
-   const [location, setLocation] = useState({ latitude: 1.3483, longitude:103.6831  });
+   const [location, setLocation] = useState( null);
    const [errorMsg, setErrorMsg] = useState(null);
-   //const origin = {latitude: 1.3483, longitude:103.6831};
+   const [postal, setPostal] = useState("loading");
+
  
    useEffect(() => {
      (async () => {
-       //console.log("Hello!");
+
        let { status } = await Location.requestForegroundPermissionsAsync();
-       //console.log(status);
+
        if (status !== 'granted') {
          navigation.navigate("EnableError")
          setErrorMsg('Permission to access location was denied');
          return;
        }
        
-       //let location = await Location.getCurrentPositionAsync({});
-       //Location.getCurrentPositionAsync({}).catch(err => console.log(err));
+
        let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
-       //console.log(location);
-       //origin.latitude = location.coords.latitude;
-       //origin.longitude = location.coords.longitude;
-       //console.log(origin);  //Cant store this values
+
        setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
      })();
    }, []);
@@ -54,7 +51,10 @@ export default function Food_MapScreen({ navigation , route}) {
   const destination = {latitude: 1.357371, longitude: 103.765726};
   const GOOGLE_MAPS_APIKEY = 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY';
 
-  if (choice == 1)
+
+
+
+  if (choice == 1 && location != null)
   {
     let difference2 = 1;
     for (let index = 0; index < hawker.features.length; index++) {
@@ -69,7 +69,7 @@ export default function Food_MapScreen({ navigation , route}) {
       
     }
   }
-  else
+  else if (choice == 3 && location != null)
   {
     let difference2 = 1;
     for (let index = 0; index < supermarkets.features.length; index++) {
@@ -83,6 +83,16 @@ export default function Food_MapScreen({ navigation , route}) {
         }
   }
   }
+
+
+  fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + destination.latitude + ',' +destination.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY')
+  .then((response) => response.json())
+  .then((responseJson) => {
+      let postal = responseJson.results[0].formatted_address;
+
+      setPostal(postal);
+    } )
+
 
   const handleGetDirections = () => { //For Google Maps
     const data = {
@@ -112,7 +122,7 @@ export default function Food_MapScreen({ navigation , route}) {
 
 
 
-  return (
+  return ( 
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={styles.feature_box}>
         <TouchableOpacity
@@ -129,8 +139,10 @@ export default function Food_MapScreen({ navigation , route}) {
           </Text>
         </TouchableOpacity>
       </View>
-      <MapView
+      {location ?
+        <MapView
         style={{ 
+          flex: 11,
           width: Dimensions.get('window').width,
           height: Dimensions.get('window').height - 180}}
           initialRegion ={{
@@ -152,12 +164,19 @@ export default function Food_MapScreen({ navigation , route}) {
           <MapView.Marker 
           coordinate={location}
           title ={"Start"}
+          color = {"blue"}
            />
           <MapView.Marker 
           coordinate={destination}
           title = {"end"}
            />
-        </MapView>
+        </MapView> : <Text> Loading </Text>}
+        {location?
+        <View>
+          <Text style={{ textAlign: "center", fontSize: 30 }}>
+            {postal}
+          </Text> 
+        </View>: <Text>Loading</Text>}
     </View>
   );
 }

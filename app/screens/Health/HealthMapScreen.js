@@ -15,28 +15,24 @@ Geocoder.init('AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY');
 
 export default function Health_MapScreen({ navigation, route }){
 
-  //const {choice} = route.params;
+
   let choice = null;
   if (route.params != undefined)
   {
     choice = route.params.choice;
   }
-  //console.log(choice);
 
-  const [location, setLocation] = useState({ latitude: 1.3483, longitude:103.6831  });
+
+  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [postal, setPostal] = useState(111111);
+  const [postal, setPostal] = useState("loading");
 
-  const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
-    'Wait, we are fetching you location...'
-  );
-  
 
   useEffect(() => {
     (async () => {
-      //console.log("Hello!");
+
       let { status } = await Location.requestForegroundPermissionsAsync();
-      //console.log(status);
+
       if (status !== 'granted') {
         navigation.navigate("HealthError");
         setErrorMsg('Permission to access location was denied');
@@ -44,33 +40,9 @@ export default function Health_MapScreen({ navigation, route }){
       }
       
       let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
-      //console.log(location);
-
-      setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
 
 
-      /*if (location.coords)
-      {
-        const { latitude, longitude } = location.coords;
-        let response = await Location.reverseGeocodeAsync({
-          latitude,
-          longitude
-        });
-      
-      
-      
-
-      for (let item of response) {
-        let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
-        
-        setDisplayCurrentAddress(address);
-      }
-      
-      //}
-
-      //Geocoder.from(location.coords.latitude, location.coords.longitude).then(json => {console.log(json)});
-      //setAddress(json.results[0].address_components);
-      }*/
+      setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude})
 
     })();
   }, []);
@@ -84,7 +56,7 @@ export default function Health_MapScreen({ navigation, route }){
   const LONGITUDE_DELTA = 0.008000;
   const destination = {latitude: 1.3012, longitude: 103.8571};
 
-  if (choice == 1)
+  if (choice == 1 && location != null)
   {
     let difference2 = 1;
     for (let index = 0; index < clinics.features.length; index++) {
@@ -99,7 +71,7 @@ export default function Health_MapScreen({ navigation, route }){
       
     }
   }
-  else
+  else if ( choice == 3 && location != null)
   {
     let difference2 = 1;
     for (let index = 0; index < hospital.hospitals.length; index++) {
@@ -119,11 +91,10 @@ export default function Health_MapScreen({ navigation, route }){
   .then((response) => response.json())
   .then((responseJson) => {
       let postal = responseJson.results[0].formatted_address;
-      //responseJson.results[1].address_components[5].long_name;
-      //console.log(postal);
+
       setPostal(postal);
     } )
-  console.log(postal);
+
 
   const handleGetDirections = () => {
     const data = {
@@ -149,27 +120,6 @@ export default function Health_MapScreen({ navigation, route }){
  
     getDirections(data)
   }
-
-
-
-  /*const [latitude, setLatitude] = React.useState(0);
-  const [longitude, setLongitude] = React.useState(0);
-
-
-  React.useEffect(() => {
-    Geolocation.setRNConfiguration(config);
-    Geolocation.getCurrentPosition(
-      (position) => {
-        const latitude = position.coords.latitude;
-        const longitude= position.coords.longitude;
-  
-        setLongitude(longitude);
-        setLatitude(latitude);
-      },
-    (error) => Alert.alert(error.message),
-    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-   );
-  })*/
   
   
   
@@ -177,7 +127,7 @@ export default function Health_MapScreen({ navigation, route }){
   //const GOOGLE_MAPS_APIKEY = process.env.REACT_APP_GOOGLE_MAPS_APIKEY;
   const GOOGLE_MAPS_APIKEY = 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY';
 
-  return (
+  return ( 
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={styles.feature_box}>
         <TouchableOpacity
@@ -194,14 +144,15 @@ export default function Health_MapScreen({ navigation, route }){
           </Text>
         </TouchableOpacity>
       </View>
+      {location ?
         <MapView
         style={{ 
           flex: 11,
           width: Dimensions.get('window').width,
           height: Dimensions.get('window').height - 180}}
           initialRegion ={{
-          latitude: destination.latitude,
-          longitude: destination.longitude,
+          latitude: location.latitude,
+          longitude: location.longitude,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA
         }}
@@ -218,17 +169,19 @@ export default function Health_MapScreen({ navigation, route }){
           <MapView.Marker 
           coordinate={location}
           title ={"Start"}
+          color = {"blue"}
            />
           <MapView.Marker 
           coordinate={destination}
           title = {"end"}
            />
-        </MapView>
+        </MapView> : <Text> Loading </Text>}
+        {location?
         <View>
           <Text style={{ textAlign: "center", fontSize: 30 }}>
             {postal}
-          </Text>
-        </View>
+          </Text> 
+        </View>: <Text>Loading</Text>}
     </View>
   );
 }
