@@ -3,8 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AddressScreen, ProfileScreen } from "../screens/Main";
 import MainNavigator from "./MainNavigator";
-import { SetupScreen } from "../screens/Setup";
-import { FoodScreen } from "../screens/Food";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +15,6 @@ export default function TabNavigator() {
           if (route.name === "MENU") iconName = "menu";
           if (route.name === "PROFILE") iconName = "account";
           if (route.name === "ADDRESS") iconName = "home";
-          if (route.name === "SETUP") iconName = "content-save"; // TODO: REMOVE
           return (
             <MaterialCommunityIcons name={iconName} size={35} color={color} />
           );
@@ -30,7 +27,7 @@ export default function TabNavigator() {
         options={{
           headerTitleAlign: "center",
           tabBarShowLabel: false,
-          headerShown:false,
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -41,9 +38,9 @@ export default function TabNavigator() {
           tabBarShowLabel: false,
           unmountOnBlur: true,
         }}
-      listeners={({ navigation }) => ({
-        blur: () => navigation.setParams({ screen: undefined }),
-      })}
+        listeners={({ navigation }) => ({
+          blur: () => navigation.setParams({ screen: undefined }),
+        })}
       />
       <Tab.Screen
         name="PROFILE"
@@ -57,15 +54,6 @@ export default function TabNavigator() {
           blur: () => navigation.setParams({ screen: undefined }),
         })}
       />
-      <Tab.Screen 
-        name="SETUP"
-        component={SetupScreen}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-        }}
-      />
-      
     </Tab.Navigator>
   );
 }

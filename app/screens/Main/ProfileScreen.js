@@ -58,7 +58,7 @@ export default function ProfileScreen({navigation}) {
         {nameData.name}
       </Text>
       <TouchableOpacity
-         onPress={() => navigation.navigate('SETUP', { screen: 'basic' })} //to fix
+         onPress={() => navigation.navigate('SETUP')} //to fix
       >
         <Image
           source={require("../../assets/edit_button.png")}
