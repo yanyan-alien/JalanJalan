@@ -10,6 +10,7 @@ export default function CustomDate({
   placeholder,
   value,
   onChange,
+  maxDate = new Date(),
   ...additionalProps
 }) {
   const [date, setDate] = useState(value || new Date());
@@ -51,7 +52,7 @@ export default function CustomDate({
         {dateChanged ? moment(date).format("DD MMM YYYY") : placeholder}
       </Text>
       {show && (
-        <DateTimePicker value={date} mode="date" onChange={onDateChange} />
+        <DateTimePicker value={date} mode="date" onChange={onDateChange} maximumDate={maxDate}/>
       )}
     </View>
   );
