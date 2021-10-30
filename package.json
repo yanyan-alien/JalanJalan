@@ -36,7 +36,8 @@
     "react-native-maps-directions": "^1.8.0",
     "react-native-modal": "^13.0.0",
     "react-native-safe-area-context": "^3.2.0",
-    "react-native-screens": "~3.4.0"
+    "react-native-screens": "~3.4.0",
+    "expo-sqlite": "~9.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
