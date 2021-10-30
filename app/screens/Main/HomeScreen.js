@@ -11,40 +11,9 @@ export default function HomeScreen({ navigation }) {
   const handleConnectionChange = (state) => {
     setConnectionStatus(state.isConnected);
   };
-  const [location, setLocation] = useState({latitude: 0, longitude: 0});
+
   const [errorMsg, setErrorMsg] = useState(null);
   const [postal, setPostal] = useState(111111);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        navigation.navigate("UnavailableError");
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-      let location = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
-      setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
-    
-    })();
-  }, []);
-
-  fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.latitude + ',' +location.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                let postal = responseJson.results[0].address_components[5].long_name;
-                setPostal(postal);
-              } )
-  console.log(postal);
-
-   function handleTaxi() {
-    setTimeout(() => {
-      navigation.navigate("Taxi");
-      }, 5000);
-    }
-  async function handleSend() {
-    const result = await SMS.sendSMSAsync('71222', 'BOOK ' + postal +' Pick Up/Drop off Point')
-  }
 
   return (
     <View style={styles.centeredView}>   
@@ -56,7 +25,7 @@ export default function HomeScreen({ navigation }) {
               backgroundColor: "#F8FFA5",
               justifyContent: "center",
               }}
-            onPress={() => setModalVisible(true)}
+            onPress={() => navigation.navigate("Taxi")}
             >
             <Text style={styles.textStyle}>TAXI</Text>
             <Image
@@ -64,38 +33,6 @@ export default function HomeScreen({ navigation }) {
               source={require("../../assets/local_taxi.png")}
             ></Image>
           </TouchableOpacity>
-          <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Image
-              style={styles.modalPic}
-              source={require("../../assets/local_taxi.png")}
-            ></Image>
-            <Text style={styles.modalText}>Need Taxi?</Text>
-            <View style={styles.parent}>
-              <TouchableOpacity
-              style={[styles.buttonGreen]}
-              onPress={() => setModalVisible(!modalVisible) ||handleTaxi() || handleSend() }
-              >
-              <Text style={styles.modalButtonText}>Yes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-              style={[styles.buttonRed]}
-              onPress={() => setModalVisible(!modalVisible)}
-              >
-              <Text style={styles.modalButtonText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>  
         <TouchableOpacity
           style={{
             flex: 1,
