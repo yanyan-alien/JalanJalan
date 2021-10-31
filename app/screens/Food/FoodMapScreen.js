@@ -19,15 +19,15 @@ export default function Food_MapScreen({ navigation , route}) {
    let choice = null;
    if (route.params != undefined)
    {
-     choice = route.params.choice;
+     choice = route.params.choice;                      // If choice is 1 == Clinic, If choice is 3 == Hospital
    }
  
-   const [location, setLocation] = useState( null);
+   const [location, setLocation] = useState( null);     // Stores current location
    const [errorMsg, setErrorMsg] = useState(null);
-   const [postal, setPostal] = useState("loading");
+   const [postal, setPostal] = useState("loading");     // Stores destination description
 
  
-   useEffect(() => {
+   useEffect(() => {                                    // Used to check for location services and current location
      (async () => {
 
        let { status } = await Location.requestForegroundPermissionsAsync();
@@ -48,13 +48,13 @@ export default function Food_MapScreen({ navigation , route}) {
 
   const LATITUDE_DELTA = 0.008000;
   const LONGITUDE_DELTA = 0.008000;
-  const destination = {latitude: 1.357371, longitude: 103.765726};
+  const destination = {latitude: 1.357371, longitude: 103.765726};    
   const GOOGLE_MAPS_APIKEY = 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY';
 
 
 
 
-  if (choice == 1 && location != null)
+  if (choice == 1 && location != null)       // Find nearest Hawker Center if current location found
   {
     let difference2 = 1;
     for (let index = 0; index < hawker.features.length; index++) {
@@ -69,7 +69,7 @@ export default function Food_MapScreen({ navigation , route}) {
       
     }
   }
-  else if (choice == 3 && location != null)
+  else if (choice == 3 && location != null)   // Find nearest hospital if current location found
   {
     let difference2 = 1;
     for (let index = 0; index < supermarkets.features.length; index++) {
@@ -90,7 +90,7 @@ export default function Food_MapScreen({ navigation , route}) {
   .then((responseJson) => {
       let postal = responseJson.results[0].formatted_address;
 
-      setPostal(postal);
+      setPostal(postal);          // Destination description
     } )
 
 
@@ -132,14 +132,14 @@ export default function Food_MapScreen({ navigation , route}) {
             width: 1000,
             borderRadius: 24,
           }}
-          onPress={handleGetDirections}
+          onPress={handleGetDirections}         //Use to go to Google Maps
         >
           <Text style={{ textAlign: "center", fontSize: 30 }}>
             Tap for Google Maps
           </Text>
         </TouchableOpacity>
       </View>
-      {location ?
+      {location ?   //If location found, display map
         <MapView
         style={{ 
           flex: 11,
@@ -164,7 +164,7 @@ export default function Food_MapScreen({ navigation , route}) {
           <MapView.Marker 
           coordinate={location}
           title ={"Start"}
-          inColor = {"green"}
+          pinColor = {"green"}
            />
           <MapView.Marker 
           coordinate={destination}

@@ -17,16 +17,16 @@ export default function Health_MapScreen({ navigation, route }){
 
 
   let choice = null;
-  if (route.params != undefined)
+  if (route.params != undefined)                      // If choice is 1 == Clinic, If choice is 3 == Hospital
   {
     choice = route.params.choice;
   }
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState(null);     // Stores current location
   const [errorMsg, setErrorMsg] = useState(null);
-  const [postal, setPostal] = useState("loading");
+  const [postal, setPostal] = useState("loading");    // Stores destination description
 
 
-  useEffect(() => {
+  useEffect(() => {                                   // Used to check for location services and current location
     (async () => {
 
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -52,9 +52,9 @@ export default function Health_MapScreen({ navigation, route }){
 
   const LATITUDE_DELTA = 0.008000;
   const LONGITUDE_DELTA = 0.008000;
-  const destination = {latitude: 1.3012, longitude: 103.8571};
+  const destination = {latitude: 1.3012, longitude: 103.8571};  
 
-  if (choice == 1 && location != null)
+  if (choice == 1 && location != null)                          // Find nearest clinic if current location found
   {
     let difference2 = 1;
     for (let index = 0; index < clinics.features.length; index++) {
@@ -69,7 +69,7 @@ export default function Health_MapScreen({ navigation, route }){
       
     }
   }
-  else if ( choice == 3 && location != null)
+  else if ( choice == 3 && location != null)                    // Find nearest hospital if current location found
   {
     let difference2 = 1;
     for (let index = 0; index < hospital.hospitals.length; index++) {
@@ -90,11 +90,11 @@ export default function Health_MapScreen({ navigation, route }){
   .then((responseJson) => {
       let postal = responseJson.results[0].formatted_address;
 
-      setPostal(postal);
+      setPostal(postal);                                         // Destination description
     } )
 
 
-  const handleGetDirections = () => {
+  const handleGetDirections = () => {                            // Google Maps handler
     const data = {
        source: {
         latitude:  location.latitude,
@@ -128,8 +128,8 @@ export default function Health_MapScreen({ navigation, route }){
   return ( 
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={styles.feature_box}>
-        <TouchableOpacity
-          style={{
+        <TouchableOpacity         //Use to go to Google Maps
+          style={{                                                           
             backgroundColor: "#3FDCFF",
             justifyContent: "center",
             width: 1000,
@@ -142,7 +142,7 @@ export default function Health_MapScreen({ navigation, route }){
           </Text>
         </TouchableOpacity>
       </View>
-      {location ?
+      {location ?       //If location found, display map
         <MapView
         style={{ 
           flex: 11,
