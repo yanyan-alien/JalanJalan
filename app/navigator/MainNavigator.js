@@ -35,6 +35,7 @@ export default function MainNavigator({ navigation }) {
         <Stack.Screen
           name="HealthError"
           component={HealthError}
+          // allow user to change navigation of back button
           options={{
             headerLeft: () => (
               <HeaderBackButton
@@ -64,6 +65,7 @@ export default function MainNavigator({ navigation }) {
         <Stack.Screen
           name="EnableError"
           component={EnableError}
+          // allow user to change navigation of back button
           options={{
             headerLeft: () => (
               <HeaderBackButton
@@ -88,7 +90,6 @@ export default function MainNavigator({ navigation }) {
         }}
       >
         <Stack.Screen name="UnavailableError" component={UnavailableError} />
-        {/* <Stack.Screen name="EnableError" component={EnableError} /> */}
       </Stack.Group>
     </Stack.Navigator>
   );

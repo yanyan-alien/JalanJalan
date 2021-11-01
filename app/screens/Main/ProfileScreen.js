@@ -37,12 +37,11 @@ export default function ProfileScreen({navigation}) {
       let med = await AsyncStorage.getItem("medications");
       let con = await AsyncStorage.getItem("conditions");
       let bir = await AsyncStorage.getItem("birthday");
+      // to get medication and conditions in array form, have to slice away [ and ] from the strings, replace all " and split it
       let con_test = con.slice(1, -1).replace(/"/g,'').split(",");
       let med_test = med.slice(1, -1).replace(/"/g,'').split(",");
+      // to just get the year of birth slice the front 4 char and convert it to number format
       let bir_test = Number(bir.slice(0,4));
-      console.log(med_test);
-      // console.log(con_test);
-      // console.log(bir_test);
       setBirthdayData(bir_test)
       setMedicationData(med_test);
       setConditionData(con_test);
@@ -51,23 +50,26 @@ export default function ProfileScreen({navigation}) {
   }, []);
   let age = 2021 - birthdayData;
   return (
+    // scrollview to allow user to scroll
     <ScrollView style={{ flex: 1, padding: "5%" , backgroundColor:"white"}}>
 
+      {/* view for name and edit icon */}
       <View style={{flexDirection:"row", paddingBottom:"5%", justifyContent:"space-between"}}>
-      <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize",}}>
-        {nameData.name}
-      </Text>
-      <TouchableOpacity
-         onPress={() => navigation.navigate('SETUP')} //to fix
-      >
-        <Image
-          source={require("../../assets/edit_button.png")}
-          style={[styles.editIcon, ]}
-        />
-      </TouchableOpacity>
+        <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize",}}>
+          {nameData.name}
+        </Text>
 
- 
+        {/* edit icon */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('SETUP')}
+        >
+          <Image
+            source={require("../../assets/edit_button.png")}
+            style={[styles.editIcon, ]}
+          />
+        </TouchableOpacity>
       </View>
+
       <Text style={styles.normalText}>
         Age: {age}{"\n"}
         Blood Type: {bloodData.bloodType}{"\n"}
@@ -75,25 +77,27 @@ export default function ProfileScreen({navigation}) {
       <Text style={styles.normalText}>
         Medical conditions:
       </Text>
+      {/* condition flatlist */}
       <View>
-            <FlatList 
-            style={{ marginBottom:"5%"}}
-            data={conditionData}
-            renderItem={({item}) => <Text style={[styles.normalText, {textTransform:"capitalize"}]}>{"\u2022"} {item}</Text>}
-          />
+          <FlatList 
+          style={{ marginBottom:"5%"}}
+          data={conditionData}
+          renderItem={({item}) => <Text style={[styles.normalText, {textTransform:"capitalize"}]}>{"\u2022"} {item}</Text>}
+        />
       </View>
       
         <Text style={styles.normalText}>Current Medication:</Text>
         <View>
+          {/* medication flatlist */}
           <FlatList 
             style={{ marginBottom:"5%"}}
             data={medicatonData}
-            // extraData={this.state}
             extraData={medicatonData.state}
             renderItem={({item}) => <Text style={[styles.normalText, {textTransform:"capitalize"}]}>{"\u2022"} {item}</Text>}
           />
         </View>
 
+      {/* next of kin information */}
       <Text style={styles.normalText}>
         Next-of-kin:{" "}
         <Text style={{ fontWeight: "bold", textTransform:"capitalize" }}>{nokData.nokName}</Text>
@@ -107,9 +111,7 @@ export default function ProfileScreen({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    // flexDirection: 'column',
     flex: 2,
-    // paddingTop: 20,
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",

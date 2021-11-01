@@ -28,7 +28,7 @@ export default function HealthError({ navigation }) {
           <Text style={{ textAlign: "center", fontSize: 30 }}>REMINDERS</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ flex: 0.12 }}></View>
+      <View style={{ flex: 0.1 }}></View>
     </View>
   );
 }
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   feature_box: {
-    flex: 1,
+    flex: 0.85,
     flexDirection: "row",
     alignContent: "flex-end",
   },

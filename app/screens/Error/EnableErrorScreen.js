@@ -8,7 +8,7 @@ import {
   Linking,
  } from "react-native";
 
- const OpenSettingsButton = ({ children }) => {
+ const OpenSettingsButton = () => {
   const handlePress = useCallback(async () => {
     // Open the custom settings if the app has one
     await Linking.openSettings();
@@ -29,14 +29,17 @@ import {
 
 export default function EnableError() {
      return (
+       //view container
       <View style={styles.container}>
 
-      <View style={styles.textContainer}>
-        <Text style={[styles.textStyle, {marginBottom: "10%", fontWeight:"bold"}]}>ERROR:</Text>
-        <Text style={styles.textStyle}>Please enable your location services and mobile data</Text>
-      </View>
-    <OpenSettingsButton/>
-    <View style={{ flex: 0.12 }}></View>
+        {/* text container */}
+        <View style={styles.textContainer}>
+          <Text style={[styles.textStyle, {marginBottom: "10%", fontWeight:"bold"}]}>ERROR:</Text>
+          <Text style={styles.textStyle}>Please enable your location services and mobile data</Text>
+        </View>
+        {/* settings button */}
+        <OpenSettingsButton/>
+      <View style={{ flex: 0.1 }}></View>
 
   </View>
  );
@@ -47,7 +50,9 @@ const styles = StyleSheet.create({
     flex:1,
     display:"flex",
     flexDirection:"column",
-    paddingHorizontal:"10%",
+
+    //to try out this
+    // paddingHorizontal:"10%",
     alignItems:"center",
     backgroundColor: "white",
   },
@@ -70,8 +75,8 @@ const styles = StyleSheet.create({
   },
 
   feature_box: {
-    flex: 1,
+    flex: 0.85,
     flexDirection: "row",
-    alignContent: "flex-end",
+    // alignContent: "flex-end",
   },
 })

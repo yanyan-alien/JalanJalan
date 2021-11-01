@@ -8,6 +8,7 @@ import {
 
 export default function UnavailableError({navigation}) {
      return (
+      //  view container
         <View style={styles.container}>
 
           <View style={styles.textContainer}>
@@ -18,13 +19,14 @@ export default function UnavailableError({navigation}) {
           <View style={styles.feature_box}>
             <TouchableOpacity
               style={styles.button}
+              // button will navigate user to home screen
               onPress={() => navigation.navigate("HomeScreen")}
             >
               <Text style={{ textAlign: "center", fontSize: 30 }}>Return to Menu</Text>
             </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 0.12 }}></View>
+        <View style={{ flex: 0.1 }}></View>
 
       </View>
      );
@@ -59,7 +61,7 @@ export default function UnavailableError({navigation}) {
     },
 
     feature_box: {
-      flex: 1,
+      flex: 0.85,
       flexDirection: "row",
       alignContent: "flex-end",
     },

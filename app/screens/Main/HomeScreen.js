@@ -1,30 +1,19 @@
-import React, {useState, useEffect} from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Modal} from "react-native";
-import * as SMS from 'expo-sms';
-import * as Location from 'expo-location';
-import {NetInfo, useNetInfo, state} from "@react-native-community/netinfo";
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image} from "react-native";
+
 
 export default function HomeScreen({ navigation }) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState(false);
-  let NetInfoSubscription = null;
-  const handleConnectionChange = (state) => {
-    setConnectionStatus(state.isConnected);
-  };
-
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [postal, setPostal] = useState(111111);
-
   return (
-    <View style={styles.centeredView}>   
+         
       <View style={styles.container}>
+
+        {/* feature box to contain top row rectangles */}
         <View style={styles.feature_box}>
+
+          {/* Taxi rectangle */}
           <TouchableOpacity
-            style={{
-              flex: 1,
-              backgroundColor: "#F8FFA5",
-              justifyContent: "center",
-              }}
+            style={[styles.rectangles, {backgroundColor: "#F8FFA5"}]}
+            // navigating to TaxiScreen 
             onPress={() => navigation.navigate("Taxi")}
             >
             <Text style={styles.textStyle}>TAXI</Text>
@@ -33,18 +22,12 @@ export default function HomeScreen({ navigation }) {
               source={require("../../assets/local_taxi.png")}
             ></Image>
           </TouchableOpacity>
+        
+        {/* Health rectangle */}
         <TouchableOpacity
-          style={{
-            flex: 1,
-            backgroundColor: "#A5EFFF",
-            justifyContent: "center",
-          }}
-          onPress={() =>  {
-            // setConnectionStatus(NetInfo.isConnected);
-            console.log(connectionStatus)
-            if(connectionStatus) navigation.navigate("HealthError")
-            else navigation.navigate("Health")}
-          }
+          style={[styles.rectangles, {backgroundColor: "#A5EFFF"}]}
+          // navigating to HealthScreen
+          onPress={() =>  {navigation.navigate("Health")}}
         >
           <Text style={styles.textStyle}>HEALTH</Text>
           <Image
@@ -54,17 +37,14 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
+      {/* feature box for second row on the screen, containing Food and Emergency*/}
       <View style={styles.feature_box}>
+
+        {/* Food rectangle */}
         <TouchableOpacity
-          style={{
-            flex: 1,
-            backgroundColor: "#B1F698",
-            justifyContent: "center",
-          }}
-          onPress={() => {
-            if(connectionStatus) navigation.navigate("EnableError")
-            else navigation.navigate("Food")
-          }}
+          style={[styles.rectangles, {backgroundColor: "#B1F698"}]}
+          // navigating to FoodScreen
+          onPress={() => {navigation.navigate("Food")}}
         >
           <Text style={styles.textStyle}>FOOD</Text>
           <Image
@@ -72,12 +52,11 @@ export default function HomeScreen({ navigation }) {
             source={require("../../assets/restaurant.png")}
           ></Image>
         </TouchableOpacity>
+
+        {/* Emergency rectangle */}
         <TouchableOpacity
-          style={{
-            flex: 1,
-            backgroundColor: "#FF9292",
-            justifyContent: "center",
-          }}
+          style={[styles.rectangles, {backgroundColor: "#FF9292"}]}
+          // navigating to EmergencyScreen
           onPress={() => navigation.navigate("Emergency")}
         >
           <Text style={styles.textStyle}>EMERGENCY</Text>
@@ -88,7 +67,6 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
     </View>
-    </View>
   );
 }
 
@@ -96,9 +74,7 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    // flexDirection: 'column',
     flex: 2,
-    // paddingTop: 20,
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
@@ -114,70 +90,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     resizeMode: "contain",
   },
-  rectangles: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    // marginTop: 22
-  },
-  modalView: {
-    width: 250,
-    height: 200,
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 40,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  buttonGreen: {
-    borderRadius: 20,
-    backgroundColor: "green",
-    padding: 10,
-    elevation: 2,
-    marginRight:5,
-  },
-  buttonRed: {
-    borderRadius: 20,
-    backgroundColor: "red",
-    padding: 10,
-    elevation: 2,
-    marginLeft:5,
-  },
-  parent: {
-    flexDirection: "row",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-    fontSize: 30,
-  },
-  modalPic: {
-    height: 50,
-    width: 50,
-  },
   textStyle: {
     textAlign: "center",
     fontSize: 25,
   },
-  modalButtonText: {
-    fontSize:15,
-    color: "white"
-  },
+  rectangles: {
+    flex: 1,
+    justifyContent: "center",
+  }
 });

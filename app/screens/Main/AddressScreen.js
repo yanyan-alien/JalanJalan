@@ -4,6 +4,7 @@ import { BasicInfoScreen } from "../Setup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function AddressScreen({navigation}) {
+  //get data acquired during set up
    const [nokData, setNokData] = useState({  nokName: '', nokNumber: '' });
    const [addressData, setAddressData] = useState({addressLine1:"", addressLine2:"", postalCode:""})
    const [nameData, setNameData] = useState({name:""})
@@ -19,10 +20,13 @@ export default function AddressScreen({navigation}) {
       setAddressData(Object.fromEntries(stateArr));
       setNameData(Object.fromEntries(stateArr));
     }
+    //calling fetchFromStorage() function
     fetchFromStorage();
   }, []);
   return (
     <View style={{ flex: 1, padding: "5%" , backgroundColor:"white"}}>
+
+      {/* view for name and edit icon on the same row */}
       <View style={{flexDirection:"row", paddingBottom:"5%", justifyContent:"space-between"}}>
         <Text style={{ fontSize: 36, fontWeight: "bold", textTransform:"capitalize", }}>{nameData.name}</Text>
         <TouchableOpacity
@@ -35,11 +39,15 @@ export default function AddressScreen({navigation}) {
           />
         </TouchableOpacity>
       </View>
+
+      {/* view for address */}
       <View style={{ paddingBottom: "10%" }}>
+        {/* textTransform to ensure that data is capitalize */}
         <Text style={{ fontSize: 36,  textTransform:"capitalize"}}>{addressData.addressLine1}</Text>
         <Text style={{ fontSize: 36,  textTransform:"capitalize"}}>{addressData.addressLine2}</Text>
         <Text style={{ fontSize: 36 }}>{addressData.postalCode}</Text>
       </View>
+
       <Text style={{ fontSize: 36 }}>
         If I require assistance, call: {"\n"}
         Next-of-kin:{" "}
@@ -54,9 +62,7 @@ export default function AddressScreen({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    // flexDirection: 'column',
     flex: 2,
-    // paddingTop: 20,
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
