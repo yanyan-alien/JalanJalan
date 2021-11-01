@@ -10,10 +10,6 @@ export default function TaxiScreen({ navigation }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const [postal, setPostal] = useState(111111);
 
-  async function handleSend() {
-    const result = await SMS.sendSMSAsync('71222', 'BOOK ' + postal +' Pick Up/Drop off Point')
-  }
-  
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -22,17 +18,22 @@ export default function TaxiScreen({ navigation }) {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-      let location = await Location.getCurrentPositionAsync();
-      setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
-      let res = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.coords.latitude + ',' + location.coords.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY');
+      let location = await Location.getCurrentPositionAsync(); 
+      setLocation({latitude: location.coords.latitude, longitude: location.coords.longitude}); 
+      let res = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + location.coords.latitude + ',' + location.coords.longitude + '&key=' + 'AIzaSyDBfr3UpO1f6iZngyvl5drfJb1tJ3ywVzY'); 
       res = await res.json();
       res = res.results[0].address_components;
-      const postalCode = res.find(v => v.types.includes("postal_code"));
+      const postalCode = res.find(v => v.types.includes("postal_code")); //find nearest postal code location from coordinates using google map API
       if (postalCode) {
         setPostal(postalCode.long_name);
       }
     })();
   }, []);
+
+//function to send sms of current location postal code to taxi service using expo sms
+async function handleSend() {
+  const result = await SMS.sendSMSAsync('71222', 'BOOK ' + postal +' Pick Up/Drop off Point')
+} 
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
