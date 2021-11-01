@@ -1,3 +1,7 @@
+//Class that handles the screen formatting and UI for the edit reminders page.
+//Displays a header and the reminders list provided by the reminders class
+//Also provides a "Done" button to save changes to database
+
 import React, { Component, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Overlay } from "react-native-elements";

@@ -1,3 +1,6 @@
+//Controller class for the reminder components, provides the database initiation, props and functions for the sub-classes
+//Also calls for navigation between today's reminder and edit reminder
+
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import * as SQLite from "expo-sqlite";

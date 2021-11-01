@@ -1,3 +1,6 @@
+//Class that combines the weekly table and reminder name that the user inputs
+//Also includes a delete button that removes the entire reminder
+
 import React, { Component } from "react";
 import {
   Text,

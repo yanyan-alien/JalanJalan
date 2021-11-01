@@ -1,3 +1,7 @@
+//Class that handles the screen formatting and UI for the today's reminder screen
+//Access the database and reads the list of medication that have the relevant day marked
+//ie. if today is monday, any reminder with "M" darkened will be displayed
+
 import React, { Component } from "react";
 import {
   StyleSheet,

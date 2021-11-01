@@ -1,3 +1,5 @@
+//Class has been discontinued due to redundant functionality
+
 import React, { Component } from "react";
 import {
   StyleSheet,

@@ -1,3 +1,5 @@
+//class that handles the list of reminders shown during the edit reminders screen
+
 import React, { Component } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 

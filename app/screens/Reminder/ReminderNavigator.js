@@ -1,3 +1,5 @@
+//navigation class for reminder, do note that All Reminders Screen has been removed as it was a non-essential
+
 import React, { useReducer, useEffect, Component } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RemindersMainScreen from "./RemindersMainScreen";

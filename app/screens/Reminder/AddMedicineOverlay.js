@@ -1,3 +1,7 @@
+//Class that handles the UI and functionality of the add reminder overlay
+//Includes a text box for users to enter the name and a weekly table
+//Upon clicking add, new reminder will be saved to database
+
 import React, { Component } from "react";
 import {
   Text,

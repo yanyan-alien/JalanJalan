@@ -1,3 +1,5 @@
+//Class that provides functionality for the weekly check boxes under each reminder
+
 import React, { Component } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
@@ -6,7 +8,7 @@ export default class Reminder extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => this.props.onToggle(this.props.reminder, 0)}
+          onPress={() => this.props.onToggle(this.props.reminder, 0)} //Monday's Box
         >
           <View
             style={[
@@ -19,7 +21,7 @@ export default class Reminder extends Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.onToggle(this.props.reminder, 1)}
+          onPress={() => this.props.onToggle(this.props.reminder, 1)} //Tuesday's Box
         >
           <View
             style={[
@@ -32,7 +34,7 @@ export default class Reminder extends Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.onToggle(this.props.reminder, 2)}
+          onPress={() => this.props.onToggle(this.props.reminder, 2)} //Wednesday's Box
         >
           <View
             style={[
@@ -45,7 +47,7 @@ export default class Reminder extends Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.onToggle(this.props.reminder, 3)}
+          onPress={() => this.props.onToggle(this.props.reminder, 3)} //Thursday's Box
         >
           <View
             style={[
@@ -58,7 +60,7 @@ export default class Reminder extends Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.onToggle(this.props.reminder, 4)}
+          onPress={() => this.props.onToggle(this.props.reminder, 4)} //Friday's Box
         >
           <View
             style={[
@@ -71,7 +73,7 @@ export default class Reminder extends Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.onToggle(this.props.reminder, 5)}
+          onPress={() => this.props.onToggle(this.props.reminder, 5)} //Saturday's Box
         >
           <View
             style={[
@@ -84,7 +86,7 @@ export default class Reminder extends Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.onToggle(this.props.reminder, 6)}
+          onPress={() => this.props.onToggle(this.props.reminder, 6)} //Sunday's Box
         >
           <View
             style={[
